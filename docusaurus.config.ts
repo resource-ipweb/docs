@@ -5,8 +5,8 @@ import type * as Preset from "@docusaurus/preset-classic";
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: "IPWeb Docs",
-  tagline: "IPWeb Docs",
+  title: "IPWeb API Docs",
+  tagline: "IPWeb API Docs",
   favicon: "img/favicon.ico",
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -75,9 +75,9 @@ const config: Config = {
       maxHeadingLevel: 6,
     },
     navbar: {
-      title: "IPWeb Docs",
+      title: "IPWeb API Docs",
       logo: {
-        alt: "IPWeb Docs Logo",
+        alt: "IPWeb API Docs Logo",
         src: "img/logo.svg",
       },
       // items: [
