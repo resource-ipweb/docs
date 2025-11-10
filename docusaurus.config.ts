@@ -1,13 +1,13 @@
-import { themes as prismThemes } from "prism-react-renderer";
-import type { Config } from "@docusaurus/types";
-import type * as Preset from "@docusaurus/preset-classic";
+import { themes as prismThemes } from 'prism-react-renderer';
+import type { Config } from '@docusaurus/types';
+import type * as Preset from '@docusaurus/preset-classic';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: "IPWeb API Docs",
-  tagline: "IPWeb API Docs",
-  favicon: "img/favicon.ico",
+  title: 'IPWeb API Docs',
+  tagline: 'IPWeb API Docs',
+  favicon: 'img/favicon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
@@ -15,28 +15,29 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: "https://ipweb-docusaurus-site.example.com",
+  // url: "https://ipweb-docusaurus-site.example.com",
+  url: 'https://docs.ipweb.cc',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: "/docs/",
-  // baseUrl: "/",
+  // baseUrl: "/docs/",
+  baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: "resource-ipweb", // Usually your GitHub org/user name.
-  projectName: "docs", // Usually your repo name.
+  organizationName: 'resource-ipweb', // Usually your GitHub org/user name.
+  projectName: 'docs', // Usually your repo name.
 
-  onBrokenLinks: "throw",
+  onBrokenLinks: 'throw',
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: "cn",
-    locales: ["cn"],
+    defaultLocale: 'cn',
+    locales: ['cn'],
   },
 
-  themes: ["@docusaurus/theme-mermaid"],
+  themes: ['@docusaurus/theme-mermaid'],
 
   markdown: {
     mermaid: true,
@@ -44,15 +45,15 @@ const config: Config = {
 
   presets: [
     [
-      "classic",
+      'classic',
       {
         docs: {
           //sidebarPath: './sidebars.ts',
-          routeBasePath: "/",
+          routeBasePath: '/',
         },
         blog: false,
         theme: {
-          customCss: "./src/css/custom.css",
+          customCss: './src/css/custom.css',
         },
       } satisfies Preset.Options,
     ],
@@ -60,7 +61,7 @@ const config: Config = {
 
   themeConfig: {
     // Replace with your project's social card
-    image: "img/docusaurus-social-card.jpg",
+    image: 'img/docusaurus-social-card.jpg',
     colorMode: {
       respectPrefersColorScheme: true,
     },
@@ -75,10 +76,10 @@ const config: Config = {
       maxHeadingLevel: 6,
     },
     navbar: {
-      title: "IPWeb API Docs",
+      title: 'IPWeb API Docs',
       logo: {
-        alt: "IPWeb API Docs Logo",
-        src: "img/logo.svg",
+        alt: 'IPWeb API Docs Logo',
+        src: 'img/logo.svg',
       },
       // items: [
       //   {
@@ -90,7 +91,7 @@ const config: Config = {
       // ],
     },
     footer: {
-      style: "dark",
+      style: 'dark',
       // links: [
       //   {
       //     title: "Docs",
