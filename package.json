@@ -5,12 +5,16 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
+    "start:en": "docusaurus start --locale en",
+    "preview": "docusaurus build && docusaurus serve",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
+    "write-translations:zh": "docusaurus write-translations --locale zh",
+    "write-translations:en": "docusaurus write-translations --locale en",
     "write-heading-ids": "docusaurus write-heading-ids",
     "typecheck": "tsc"
   },

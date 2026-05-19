@@ -1,0 +1,14 @@
+{
+  "version.label": {
+    "message": "Next",
+    "description": "The label for version current"
+  },
+  "sidebar.defaultSidebar.category.开放平台": {
+    "message": "Open Platform",
+    "description": "The label for category '开放平台' in sidebar 'defaultSidebar'"
+  },
+  "sidebar.defaultSidebar.category.动态代理": {
+    "message": "Dynamic Proxy",
+    "description": "The label for category '动态代理' in sidebar 'defaultSidebar'"
+  }
+}

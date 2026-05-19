@@ -36,8 +36,23 @@ const config: Config = {
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: 'cn',
-    locales: ['cn'],
+    // 默认语言 zh 部署在站点根路径，访问域名时无需 /zh/ 前缀
+    defaultLocale: 'zh',
+    locales: ['zh', 'en'],
+    localeConfigs: {
+      zh: {
+        label: '中文',
+        htmlLang: 'zh-Hans',
+        direction: 'ltr',
+        baseUrl: '/',
+      },
+      en: {
+        label: 'English',
+        htmlLang: 'en',
+        direction: 'ltr',
+        baseUrl: '/en/',
+      },
+    },
   },
 
   themes: ['@docusaurus/theme-mermaid'],
@@ -92,16 +107,10 @@ const config: Config = {
         src: 'img/logo.svg',
       },
       items: [
-        // {
-        //   to: '/',
-        //   label: '文档',
-        //   position: 'left',
-        // },
-        // {
-        //   to: '/user-guide',
-        //   label: '使用指南',
-        //   position: 'left',
-        // },
+        {
+          type: 'localeDropdown',
+          position: 'right',
+        },
       ],
     },
     footer: {
