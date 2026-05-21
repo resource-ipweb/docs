@@ -44,7 +44,13 @@ jobs:
         env:
           SITE_URL: ${{ secrets.SITE_URL_CN }}
           SITE_BASE_URL: ${{ secrets.SITE_BASE_URL_CN }}
-        run: npm run build
+        run: |
+          npm run build
+          if [ ! -s build/index.html ]; then
+            echo "::error::build/index.html is missing or empty. Check SITE_URL_CN / SITE_BASE_URL_CN."
+            exit 1
+          fi
+          echo "build/index.html size: $(wc -c < build/index.html) bytes"
 
       # 仅同步到 Bucket 内指定前缀；--delete 只删除该前缀下多余对象，不影响根目录其他目录
       # GitHub Secret: ALIYUN_OSS_PREFIX，例如 docs-site（不要首尾斜杠）
@@ -88,13 +94,48 @@ jobs:
           DEST="oss://${OSS_BUCKET}/${OSS_PREFIX}"
           echo "Syncing build/ -> ${DEST}"
           echo "Endpoint: ${OSS_ENDPOINT}"
+          OSS_AUTH=(-e "$OSS_ENDPOINT" -i "$OSS_ACCESS_KEY_ID" -k "$OSS_ACCESS_KEY_SECRET")
           ossutil sync build/ "$DEST" \
-            -e "$OSS_ENDPOINT" \
-            -i "$OSS_ACCESS_KEY_ID" \
-            -k "$OSS_ACCESS_KEY_SECRET" \
+            "${OSS_AUTH[@]}" \
             --delete \
             --force \
             --jobs 10
+
+          # 修正 MIME，避免浏览器把 index.html 当成附件下载（Content-Type 为 octet-stream）
+          OSS_URI="oss://${OSS_BUCKET}/${OSS_PREFIX}"
+          echo "Setting Content-Type metadata under ${OSS_URI}"
+          set_oss_meta() {
+            local include="$1"
+            local mime="$2"
+            ossutil set-meta "$OSS_URI" "Content-Type:${mime}" \
+              "${OSS_AUTH[@]}" -r -f --update --include "$include"
+          }
+          set_oss_meta "*.html" "text/html; charset=utf-8"
+          set_oss_meta "*.css" "text/css; charset=utf-8"
+          set_oss_meta "*.js" "application/javascript; charset=utf-8"
+          set_oss_meta "*.json" "application/json; charset=utf-8"
+          set_oss_meta "*.svg" "image/svg+xml"
+          set_oss_meta "*.xml" "application/xml"
+          set_oss_meta "*.txt" "text/plain; charset=utf-8"
+          set_oss_meta "*.png" "image/png"
+          set_oss_meta "*.jpg" "image/jpeg"
+          set_oss_meta "*.jpeg" "image/jpeg"
+          set_oss_meta "*.gif" "image/gif"
+          set_oss_meta "*.ico" "image/x-icon"
+          set_oss_meta "*.woff2" "font/woff2"
+          set_oss_meta "*.woff" "font/woff"
+          ossutil set-meta "$OSS_URI" "Content-Disposition:inline" \
+            "${OSS_AUTH[@]}" -r -f --update --include "*.html"
+
+          INDEX_KEY="${OSS_PREFIX}index.html"
+          echo "Verifying oss://${OSS_BUCKET}/${INDEX_KEY}"
+          ossutil stat "oss://${OSS_BUCKET}/${INDEX_KEY}" "${OSS_AUTH[@]}"
+          INDEX_SIZE=$(ossutil stat "oss://${OSS_BUCKET}/${INDEX_KEY}" "${OSS_AUTH[@]}" 2>&1 | awk -F': ' '/Content-Length/{print $2; exit}')
+          if [ -z "$INDEX_SIZE" ] || [ "$INDEX_SIZE" -eq 0 ]; then
+            echo "::error::${INDEX_KEY} is empty on OSS. Delete any 0-byte object named '${OSS_PREFIX%/}' or 'docs' in the bucket, then redeploy."
+            exit 1
+          fi
+          echo "OSS ${INDEX_KEY} size: ${INDEX_SIZE} bytes"
 
       # 可选：刷新 CDN 缓存（需 RAM 具备 cdn:RefreshObjectCaches；失败不阻断部署）
       - name: Refresh CDN cache
