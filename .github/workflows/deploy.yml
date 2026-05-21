@@ -68,6 +68,7 @@ jobs:
             fi
           fi
           echo "build/index.html size: $(wc -c < build/index.html) bytes"
+          node scripts/generate-oss-redirect-objects.mjs
 
       # 仅同步到 Bucket 内指定前缀；--delete 只删除该前缀下多余对象，不影响根目录其他目录
       # GitHub Secret: ALIYUN_OSS_PREFIX，例如 docs-site（不要首尾斜杠）
@@ -117,6 +118,21 @@ jobs:
             --delete \
             --force \
             --jobs 10
+
+          # 无尾斜杠 URL（如 /docs/en/foo）→ OSS 对象 docs/en/foo（跳转 HTML，非静态页面方案）
+          if [ -f .oss-redirects/manifest.json ]; then
+            echo "Uploading no-trailing-slash redirect objects"
+            node -e "
+              const m = require('./.oss-redirects/manifest.json');
+              for (const { ossKey, localFile } of m) {
+                console.log([ossKey, localFile].join('\t'));
+              }
+            " | while IFS=$'\t' read -r ossKey localFile; do
+              ossutil cp ".oss-redirects/${localFile}" "oss://${OSS_BUCKET}/${OSS_PREFIX}/${ossKey}" \
+                "${OSS_AUTH[@]}" \
+                --meta "Content-Type:text/html; charset=utf-8"
+            done
+          fi
 
           # 修正 MIME，避免浏览器把 index.html 当成附件下载（Content-Type 为 octet-stream）
           OSS_URI="oss://${OSS_BUCKET}/${OSS_PREFIX}"
