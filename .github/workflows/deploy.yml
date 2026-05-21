@@ -119,19 +119,24 @@ jobs:
             --force \
             --jobs 10
 
-          # 无尾斜杠 URL（如 /docs/en/foo）→ OSS 对象 docs/en/foo（跳转 HTML，非静态页面方案）
+          # 无尾斜杠 URL（如 /docs/user-guide）→ OSS 对象 docs/user-guide（跳转 HTML）
           if [ -f .oss-redirects/manifest.json ]; then
             echo "Uploading no-trailing-slash redirect objects"
-            node -e "
-              const m = require('./.oss-redirects/manifest.json');
-              for (const { ossKey, localFile } of m) {
-                console.log([ossKey, localFile].join('\t'));
-              }
-            " | while IFS=$'\t' read -r ossKey localFile; do
-              ossutil cp ".oss-redirects/${localFile}" "oss://${OSS_BUCKET}/${OSS_PREFIX}/${ossKey}" \
+            REDIRECT_COUNT=0
+            while IFS= read -r line; do
+              ossKey=$(echo "$line" | jq -r '.ossKey')
+              localFile=$(echo "$line" | jq -r '.localFile')
+              ossutil cp ".oss-redirects/${localFile}" "oss://${OSS_BUCKET}/${OSS_PREFIX}${ossKey}" \
                 "${OSS_AUTH[@]}" \
                 --meta "Content-Type:text/html; charset=utf-8"
-            done
+              REDIRECT_COUNT=$((REDIRECT_COUNT + 1))
+            done < <(jq -c '.[]' .oss-redirects/manifest.json)
+            echo "Uploaded ${REDIRECT_COUNT} redirect objects"
+            ossutil stat "oss://${OSS_BUCKET}/${OSS_PREFIX}user-guide" "${OSS_AUTH[@]}" || {
+              echo "::warning::docs/user-guide redirect object missing on OSS"
+            }
+          else
+            echo "::warning::.oss-redirects/manifest.json not found — push scripts/generate-oss-redirect-objects.mjs and redeploy"
           fi
 
           # 修正 MIME，避免浏览器把 index.html 当成附件下载（Content-Type 为 octet-stream）
