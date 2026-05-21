@@ -42,6 +42,15 @@ function resolveSiteUrlAndBaseUrl(): { url: string; baseUrl: string } {
 
 const { url: siteUrl, baseUrl: siteBaseUrl } = resolveSiteUrlAndBaseUrl();
 
+/** 英文 locale 路径：站点在 /docs/ 时应为 /docs/en/，而不是 /en/ */
+function getEnLocaleBaseUrl(): string {
+  if (siteBaseUrl === '/') {
+    return '/en/';
+  }
+  const base = siteBaseUrl.endsWith('/') ? siteBaseUrl : `${siteBaseUrl}/`;
+  return `${base}en/`;
+}
+
 const config: Config = {
   title: 'IPWeb API Docs',
   tagline: 'IPWeb API Docs',
@@ -78,13 +87,13 @@ const config: Config = {
         label: '中文',
         htmlLang: 'zh-Hans',
         direction: 'ltr',
-        baseUrl: '/',
+        // 勿写 baseUrl: '/'，否则会覆盖站点 baseUrl，导致 /docs/ 部署时资源仍指向根路径
       },
       en: {
         label: 'English',
         htmlLang: 'en',
         direction: 'ltr',
-        baseUrl: '/en/',
+        baseUrl: getEnLocaleBaseUrl(),
       },
     },
   },
