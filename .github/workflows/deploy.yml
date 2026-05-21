@@ -38,9 +38,12 @@ jobs:
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
 
       # ---------- 国内：阿里云 OSS ----------
+      # SITE_URL_CN 只填域名，例如 https://docs.ipweb.cn（不要带 /docs-site 路径）
+      # 若站点挂在子路径，设置 SITE_BASE_URL_CN，且与 ALIYUN_OSS_PREFIX 一致（如 /docs-site/）
       - name: Build website (Aliyun OSS / China)
         env:
           SITE_URL: ${{ secrets.SITE_URL_CN }}
+          SITE_BASE_URL: ${{ secrets.SITE_BASE_URL_CN }}
         run: npm run build
 
       # 仅同步到 Bucket 内指定前缀；--delete 只删除该前缀下多余对象，不影响根目录其他目录

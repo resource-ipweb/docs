@@ -4,6 +4,44 @@ import type * as Preset from '@docusaurus/preset-classic';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
+/** 规范 baseUrl：必须以 / 开头，非根路径时以 / 结尾 */
+function normalizeBaseUrl(path: string): string {
+  let p = path.trim() || '/';
+  if (!p.startsWith('/')) p = `/${p}`;
+  if (p !== '/' && !p.endsWith('/')) p = `${p}/`;
+  return p;
+}
+
+/**
+ * url 只能是站点根域名（无路径）；子路径写在 baseUrl（或 SITE_BASE_URL）。
+ * 若 SITE_URL 误写成 https://example.com/docs-site/，会自动拆成 url + baseUrl。
+ */
+function resolveSiteUrlAndBaseUrl(): { url: string; baseUrl: string } {
+  const raw = process.env.SITE_URL ?? 'https://docs.ipweb.cc';
+  const baseUrlEnv = process.env.SITE_BASE_URL?.trim();
+
+  try {
+    const parsed = new URL(raw);
+    const origin = `${parsed.protocol}//${parsed.host}`;
+    const pathFromUrl = parsed.pathname;
+
+    if (baseUrlEnv) {
+      return { url: origin, baseUrl: normalizeBaseUrl(baseUrlEnv) };
+    }
+    if (pathFromUrl && pathFromUrl !== '/') {
+      return { url: origin, baseUrl: normalizeBaseUrl(pathFromUrl) };
+    }
+    return { url: origin, baseUrl: '/' };
+  } catch {
+    return {
+      url: raw.split('/').slice(0, 3).join('/') || raw,
+      baseUrl: normalizeBaseUrl(baseUrlEnv ?? '/'),
+    };
+  }
+}
+
+const { url: siteUrl, baseUrl: siteBaseUrl } = resolveSiteUrlAndBaseUrl();
+
 const config: Config = {
   title: 'IPWeb API Docs',
   tagline: 'IPWeb API Docs',
@@ -14,13 +52,9 @@ const config: Config = {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
-  // Set the production url of your site here
-  // url: "https://ipweb-docusaurus-site.example.com",
-  url: process.env.SITE_URL ?? 'https://docs.ipweb.cc',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
-  // baseUrl: "/docs/",
-  baseUrl: '/',
+  // SITE_URL=纯域名；子路径用 SITE_BASE_URL（如 /docs-site/），见 resolveSiteUrlAndBaseUrl
+  url: siteUrl,
+  baseUrl: siteBaseUrl,
 
   // 新增这一行：开启结尾斜杠
   trailingSlash: true,
