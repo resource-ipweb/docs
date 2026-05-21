@@ -43,20 +43,21 @@ jobs:
           SITE_URL: ${{ secrets.SITE_URL_CN }}
         run: npm run build
 
-      - name: Setup ossutil
-        uses: manyuanrong/setup-ossutil@v3
-        with:
-          endpoint: ${{ secrets.ALIYUN_OSS_ENDPOINT }}
-          access-key-id: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_ID }}
-          access-key-secret: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_SECRET }}
-
       # 仅同步到 Bucket 内指定前缀；--delete 只删除该前缀下多余对象，不影响根目录其他目录
       # GitHub Secret: ALIYUN_OSS_PREFIX，例如 docs-site（不要首尾斜杠）
       - name: Sync build to OSS
         env:
+          OSS_ENDPOINT: ${{ secrets.ALIYUN_OSS_ENDPOINT }}
+          OSS_ACCESS_KEY_ID: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_ID }}
+          OSS_ACCESS_KEY_SECRET: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_SECRET }}
           OSS_BUCKET: ${{ secrets.ALIYUN_OSS_BUCKET }}
           OSS_PREFIX: ${{ secrets.ALIYUN_OSS_PREFIX }}
         run: |
+          curl -fsSL -o ossutil64 https://gosspublic.alicdn.com/ossutil/1.7.10/ossutil64
+          chmod +x ossutil64
+          sudo mv ossutil64 /usr/local/bin/ossutil
+          ossutil --version
+
           if [ -z "$OSS_PREFIX" ]; then
             echo "Error: set ALIYUN_OSS_PREFIX (e.g. docs-site). Refusing bucket-root sync with --delete."
             exit 1
@@ -66,6 +67,9 @@ jobs:
           DEST="oss://${OSS_BUCKET}/${OSS_PREFIX}"
           echo "Syncing build/ -> ${DEST} (--delete scoped to this prefix only)"
           ossutil sync build/ "$DEST" \
+            -e "$OSS_ENDPOINT" \
+            -i "$OSS_ACCESS_KEY_ID" \
+            -k "$OSS_ACCESS_KEY_SECRET" \
             --delete \
             --force \
             --jobs 10
