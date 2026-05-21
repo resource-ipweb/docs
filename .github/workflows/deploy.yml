@@ -96,8 +96,9 @@ jobs:
             --force \
             --jobs 10
 
-      # 可选：刷新 CDN 缓存（需 RAM 具备 cdn:RefreshObjectCaches；未配置 secret 时跳过）
+      # 可选：刷新 CDN 缓存（需 RAM 具备 cdn:RefreshObjectCaches；失败不阻断部署）
       - name: Refresh CDN cache
+        continue-on-error: true
         env:
           ALIBABA_CLOUD_ACCESS_KEY_ID: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_ID }}
           ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_SECRET }}
@@ -117,6 +118,10 @@ jobs:
             --access-key-id "$ALIBABA_CLOUD_ACCESS_KEY_ID" \
             --access-key-secret "$ALIBABA_CLOUD_ACCESS_KEY_SECRET" \
             --region "$ALIYUN_REGION"
-          aliyun cdn RefreshObjectCaches \
+          if ! aliyun cdn RefreshObjectCaches \
             --ObjectPath "$CDN_REFRESH_URL" \
-            --ObjectType Directory
+            --ObjectType Directory; then
+            echo "::warning::CDN refresh failed. Add cdn:RefreshObjectCaches to the RAM user, or remove ALIYUN_CDN_REFRESH_URL to skip. OSS upload is already complete."
+            exit 1
+          fi
+          echo "CDN cache refresh submitted for $CDN_REFRESH_URL"
