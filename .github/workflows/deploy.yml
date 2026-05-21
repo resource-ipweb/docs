@@ -1,43 +1,87 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages and Aliyun OSS
 
 on:
   push:
     branches:
       - main
-    # Review gh actions docs if you want to further define triggers, paths, etc
-    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
 
 permissions:
   contents: write
 
 jobs:
   deploy:
-    name: Deploy to GitHub Pages
+    name: Deploy docs (Global + China)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
 
       - name: Install dependencies
         run: npm ci
-      - name: Build website
+
+      # ---------- 海外：GitHub Pages ----------
+      - name: Build website (GitHub Pages)
+        env:
+          SITE_URL: https://docs.ipweb.cc
         run: npm run build
 
-      # Popular action to deploy to GitHub Pages:
-      # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # Build output to publish to the `gh-pages` branch:
           publish_dir: ./build
-          # The following lines assign commit authorship to the official
-          # GH-Actions bot for deploys to `gh-pages` branch:
-          # https://github.com/actions/checkout/issues/13#issuecomment-724415212
-          # The GH actions bot is used by default if you didn't specify the two fields.
-          # You can swap them out with your own user credentials.
           user_name: github-actions[bot]
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
+
+      # ---------- 国内：阿里云 OSS ----------
+      - name: Build website (Aliyun OSS / China)
+        env:
+          SITE_URL: ${{ secrets.SITE_URL_CN }}
+        run: npm run build
+
+      - name: Setup ossutil
+        uses: manyuanrong/setup-ossutil@v3
+        with:
+          endpoint: ${{ secrets.ALIYUN_OSS_ENDPOINT }}
+          access-key-id: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_ID }}
+          access-key-secret: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_SECRET }}
+
+      # 仅同步到 Bucket 内指定前缀；--delete 只删除该前缀下多余对象，不影响根目录其他目录
+      # GitHub Secret: ALIYUN_OSS_PREFIX，例如 docs-site（不要首尾斜杠）
+      - name: Sync build to OSS
+        env:
+          OSS_BUCKET: ${{ secrets.ALIYUN_OSS_BUCKET }}
+          OSS_PREFIX: ${{ secrets.ALIYUN_OSS_PREFIX }}
+        run: |
+          if [ -z "$OSS_PREFIX" ]; then
+            echo "Error: set ALIYUN_OSS_PREFIX (e.g. docs-site). Refusing bucket-root sync with --delete."
+            exit 1
+          fi
+          OSS_PREFIX="${OSS_PREFIX#/}"
+          OSS_PREFIX="${OSS_PREFIX%/}/"
+          DEST="oss://${OSS_BUCKET}/${OSS_PREFIX}"
+          echo "Syncing build/ -> ${DEST} (--delete scoped to this prefix only)"
+          ossutil sync build/ "$DEST" \
+            --delete \
+            --force \
+            --jobs 10
+
+      # 可选：刷新 CDN 缓存（需 RAM 具备 cdn:RefreshObjectCaches；未配置 secret 时跳过）
+      - name: Refresh CDN cache
+        env:
+          ALIBABA_CLOUD_ACCESS_KEY_ID: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_ID }}
+          ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_SECRET }}
+          CDN_REFRESH_URL: ${{ secrets.ALIYUN_CDN_REFRESH_URL }}
+        run: |
+          if [ -z "$CDN_REFRESH_URL" ]; then
+            echo "Skipping CDN refresh: ALIYUN_CDN_REFRESH_URL secret is not set"
+            exit 0
+          fi
+          npm install -g @alicloud/cli
+          aliyun cdn RefreshObjectCaches \
+            --ObjectPath="$CDN_REFRESH_URL" \
+            --ObjectType=Directory

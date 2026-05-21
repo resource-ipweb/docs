@@ -16,7 +16,7 @@ const config: Config = {
 
   // Set the production url of your site here
   // url: "https://ipweb-docusaurus-site.example.com",
-  url: 'https://docs.ipweb.cc',
+  url: process.env.SITE_URL ?? 'https://docs.ipweb.cc',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   // baseUrl: "/docs/",
