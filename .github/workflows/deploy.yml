@@ -38,16 +38,31 @@ jobs:
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
 
       # ---------- 国内：阿里云 OSS ----------
-      # SITE_URL_CN 只填域名，例如 https://docs.ipweb.cn（不要带 /docs-site 路径）
-      # 若站点挂在子路径，设置 SITE_BASE_URL_CN，且与 ALIYUN_OSS_PREFIX 一致（如 /docs-site/）
+      # SITE_URL_CN 只填域名，例如 https://cdn.ipwebdata.com
+      # SITE_BASE_URL_CN 可选；未设置时自动按 ALIYUN_OSS_PREFIX 生成（docs -> /docs/）
       - name: Build website (Aliyun OSS / China)
         env:
           SITE_URL: ${{ secrets.SITE_URL_CN }}
-          SITE_BASE_URL: ${{ secrets.SITE_BASE_URL_CN }}
+          SITE_BASE_URL_CN: ${{ secrets.SITE_BASE_URL_CN }}
+          ALIYUN_OSS_PREFIX: ${{ secrets.ALIYUN_OSS_PREFIX }}
         run: |
+          PREFIX="${ALIYUN_OSS_PREFIX#/}"
+          PREFIX="${PREFIX%/}"
+          if [ -n "$SITE_BASE_URL_CN" ]; then
+            export SITE_BASE_URL="$SITE_BASE_URL_CN"
+          elif [ -n "$PREFIX" ]; then
+            export SITE_BASE_URL="/${PREFIX}/"
+          else
+            export SITE_BASE_URL="/"
+          fi
+          echo "China build: SITE_URL=$SITE_URL SITE_BASE_URL=$SITE_BASE_URL"
           npm run build
           if [ ! -s build/index.html ]; then
-            echo "::error::build/index.html is missing or empty. Check SITE_URL_CN / SITE_BASE_URL_CN."
+            echo "::error::build/index.html is missing or empty."
+            exit 1
+          fi
+          if [ "$SITE_BASE_URL" != "/" ] && ! grep -q "${SITE_BASE_URL}assets/" build/index.html; then
+            echo "::error::index.html does not reference ${SITE_BASE_URL}assets/ — baseUrl may be wrong."
             exit 1
           fi
           echo "build/index.html size: $(wc -c < build/index.html) bytes"
