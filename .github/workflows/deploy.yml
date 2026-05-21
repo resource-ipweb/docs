@@ -65,10 +65,29 @@ jobs:
             echo "Error: set ALIYUN_OSS_PREFIX (e.g. docs-site). Refusing bucket-root sync with --delete."
             exit 1
           fi
+
+          # ALIYUN_OSS_ENDPOINT 必须是地域 Endpoint，例如 oss-cn-hangzhou.aliyuncs.com
+          # 不要填 CDN 域名、Bucket 外网访问域名、也不要带 https://
+          OSS_ENDPOINT="${OSS_ENDPOINT#https://}"
+          OSS_ENDPOINT="${OSS_ENDPOINT#http://}"
+          OSS_ENDPOINT="${OSS_ENDPOINT%/}"
+          if [[ "$OSS_ENDPOINT" == "${OSS_BUCKET}."* ]]; then
+            OSS_ENDPOINT="${OSS_ENDPOINT#${OSS_BUCKET}.}"
+          fi
+          if ! [[ "$OSS_ENDPOINT" =~ ^oss-[a-z0-9-]+\.aliyuncs\.com$ ]]; then
+            echo "::error::ALIYUN_OSS_ENDPOINT must be like oss-cn-hangzhou.aliyuncs.com (see OSS console -> Bucket overview -> Endpoint)."
+            exit 1
+          fi
+          if ! getent hosts "$OSS_ENDPOINT" > /dev/null; then
+            echo "::error::Cannot resolve $OSS_ENDPOINT — check typo or use public endpoint (not *-internal.aliyuncs.com on GitHub runners)."
+            exit 1
+          fi
+
           OSS_PREFIX="${OSS_PREFIX#/}"
           OSS_PREFIX="${OSS_PREFIX%/}/"
           DEST="oss://${OSS_BUCKET}/${OSS_PREFIX}"
-          echo "Syncing build/ -> ${DEST} (--delete scoped to this prefix only)"
+          echo "Syncing build/ -> ${DEST}"
+          echo "Endpoint: ${OSS_ENDPOINT}"
           ossutil sync build/ "$DEST" \
             -e "$OSS_ENDPOINT" \
             -i "$OSS_ACCESS_KEY_ID" \
