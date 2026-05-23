@@ -45,7 +45,7 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 
 ## 3. 获取城市列表
 
-**请求方式：** `GET /listCity`
+**请求方式：** `GET /v2/static-residential/listCity`
 
 **功能描述：** 根据国家代码获取支持的城市列表
 
@@ -77,7 +77,7 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 
 ## 4. 获取业务名称集合
 
-**请求方式：** `GET /listBusiness`
+**请求方式：** `GET /v2/static-residential/listBusiness`
 
 **功能描述：** 获取可用的业务名称列表
 
@@ -118,7 +118,7 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 
 ## 5. 获取空闲 IP 数
 
-**请求方式：** `POST /countIdleIP`
+**请求方式：** `POST /v2/static-residential/countIdleIP`
 
 **功能描述：** 查询指定条件下的可用 IP 数量
 
@@ -164,7 +164,7 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 
 ## 6 创建静态代理 IP
 
-**请求方式：** `POST /newIP`
+**请求方式：** `POST /v2/static-residential/newIP`
 
 **功能描述：** 创建新的静态代理 IP 订单
 
@@ -255,7 +255,7 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 
 ## 7. 静态代理续费
 
-**请求方式：** `POST /renewIP`
+**请求方式：** `POST /v2/static-residential/renewIP`
 
 **功能描述：** 为现有静态代理 IP 续费
 
