@@ -1,6 +1,7 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import { resolveChannelCode } from './src/utils/ipwebLoginUrl';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -42,6 +43,9 @@ function resolveSiteUrlAndBaseUrl(): { url: string; baseUrl: string } {
 
 const { url: siteUrl, baseUrl: siteBaseUrl } = resolveSiteUrlAndBaseUrl();
 
+/** 构建时 CHANNEL_CODE；未配置则为 undefined，登录链接不传 channelCode */
+const channelCode = resolveChannelCode();
+
 /** 英文 locale 路径：站点在 /docs/ 时应为 /docs/en/，而不是 /en/ */
 function getEnLocaleBaseUrl(): string {
   if (siteBaseUrl === '/') {
@@ -74,6 +78,10 @@ const config: Config = {
   projectName: 'docs', // Usually your repo name.
 
   onBrokenLinks: 'throw',
+
+  customFields: {
+    ...(channelCode ? { channelCode } : {}),
+  },
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
