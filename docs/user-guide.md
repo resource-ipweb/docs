@@ -4,6 +4,8 @@ slug: /user-guide
 description: IPWEB 代理使用指南：导出动态住宅代理、解析代理信息、验证有效性、使用自编规则生成全球随机代理，并选择合适的代理服务器。
 ---
 
+import IpwebLoginLink from '@site/src/components/IpwebLoginLink';
+
 # IPWEB 代理使用指南
 
 ## 一、如何在 IPWEB 用户后台导出动态住宅代理？
@@ -101,7 +103,7 @@ gate1.ipweb.cc:7778:B_36424_US___5_Ab000001:123456
 
 **如何查询国家代码、州代码及地区代码？**
 
-登录 IPWEB 后台 http://user.ipweb.cc，左侧菜单点击"帮助中心"中的"国家/地区/城市编码"可查询全球 200 多个国家近 20000 多个城市对应的代码。
+登录 IPWEB 后台 <IpwebLoginLink lang="zh" />，左侧菜单点击"帮助中心"中的"国家/地区/城市编码"可查询全球 200 多个国家近 20000 个城市对应的代码。
 
 ![国家地区城市编码查询页面](https://oss.ipweb.cc/docs/imgs/2f8f03c1f872bdc.png)
 

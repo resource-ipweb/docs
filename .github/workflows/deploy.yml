@@ -1,43 +1,208 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages and Aliyun OSS
 
 on:
   push:
     branches:
       - main
-    # Review gh actions docs if you want to further define triggers, paths, etc
-    # https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#on
 
 permissions:
   contents: write
 
 jobs:
   deploy:
-    name: Deploy to GitHub Pages
+    name: Deploy docs (Global + China)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
 
       - name: Install dependencies
         run: npm ci
-      - name: Build website
+
+      # ---------- 海外：GitHub Pages ----------
+      - name: Build website (GitHub Pages)
+        env:
+          SITE_URL: https://docs.ipweb.cc
+          CHANNEL_CODE: '001'
         run: npm run build
 
-      # Popular action to deploy to GitHub Pages:
-      # Docs: https://github.com/peaceiris/actions-gh-pages#%EF%B8%8F-docusaurus
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # Build output to publish to the `gh-pages` branch:
           publish_dir: ./build
-          # The following lines assign commit authorship to the official
-          # GH-Actions bot for deploys to `gh-pages` branch:
-          # https://github.com/actions/checkout/issues/13#issuecomment-724415212
-          # The GH actions bot is used by default if you didn't specify the two fields.
-          # You can swap them out with your own user credentials.
           user_name: github-actions[bot]
           user_email: 41898282+github-actions[bot]@users.noreply.github.com
+
+      # ---------- 国内：阿里云 OSS ----------
+      # SITE_URL_CN 只填域名，例如 https://cdn.ipwebdata.com
+      # SITE_BASE_URL_CN 可选；未设置时自动按 ALIYUN_OSS_PREFIX 生成（docs -> /docs/）
+      - name: Build website (Aliyun OSS / China)
+        env:
+          SITE_URL: ${{ secrets.SITE_URL_CN }}
+          SITE_BASE_URL_CN: ${{ secrets.SITE_BASE_URL_CN }}
+          ALIYUN_OSS_PREFIX: ${{ secrets.ALIYUN_OSS_PREFIX }}
+          CHANNEL_CODE: '003'
+        run: |
+          PREFIX="${ALIYUN_OSS_PREFIX#/}"
+          PREFIX="${PREFIX%/}"
+          if [ -n "$SITE_BASE_URL_CN" ]; then
+            export SITE_BASE_URL="$SITE_BASE_URL_CN"
+          elif [ -n "$PREFIX" ]; then
+            export SITE_BASE_URL="/${PREFIX}/"
+          else
+            export SITE_BASE_URL="/"
+          fi
+          echo "China build: SITE_URL=$SITE_URL SITE_BASE_URL=$SITE_BASE_URL"
+          npm run build
+          if [ ! -s build/index.html ]; then
+            echo "::error::build/index.html is missing or empty."
+            exit 1
+          fi
+          if [ "$SITE_BASE_URL" != "/" ]; then
+            if ! grep -qF "${SITE_BASE_URL}assets/" build/index.html; then
+              echo "::error::index.html should load assets from ${SITE_BASE_URL}assets/ (check i18n localeConfigs baseUrl)."
+              exit 1
+            fi
+          fi
+          echo "build/index.html size: $(wc -c < build/index.html) bytes"
+          node scripts/generate-oss-redirect-objects.mjs
+
+      # 仅同步到 Bucket 内指定前缀；--delete 只删除该前缀下多余对象，不影响根目录其他目录
+      # GitHub Secret: ALIYUN_OSS_PREFIX，例如 docs-site（不要首尾斜杠）
+      - name: Sync build to OSS
+        env:
+          OSS_ENDPOINT: ${{ secrets.ALIYUN_OSS_ENDPOINT }}
+          OSS_ACCESS_KEY_ID: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_ID }}
+          OSS_ACCESS_KEY_SECRET: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_SECRET }}
+          OSS_BUCKET: ${{ secrets.ALIYUN_OSS_BUCKET }}
+          OSS_PREFIX: ${{ secrets.ALIYUN_OSS_PREFIX }}
+        run: |
+          curl -fsSL -o ossutil64 https://gosspublic.alicdn.com/ossutil/1.7.10/ossutil64
+          chmod +x ossutil64
+          sudo mv ossutil64 /usr/local/bin/ossutil
+          ossutil --version
+
+          if [ -z "$OSS_PREFIX" ]; then
+            echo "Error: set ALIYUN_OSS_PREFIX (e.g. docs-site). Refusing bucket-root sync with --delete."
+            exit 1
+          fi
+
+          # ALIYUN_OSS_ENDPOINT 必须是地域 Endpoint，例如 oss-cn-hangzhou.aliyuncs.com
+          # 不要填 CDN 域名、Bucket 外网访问域名、也不要带 https://
+          OSS_ENDPOINT="${OSS_ENDPOINT#https://}"
+          OSS_ENDPOINT="${OSS_ENDPOINT#http://}"
+          OSS_ENDPOINT="${OSS_ENDPOINT%/}"
+          if [[ "$OSS_ENDPOINT" == "${OSS_BUCKET}."* ]]; then
+            OSS_ENDPOINT="${OSS_ENDPOINT#${OSS_BUCKET}.}"
+          fi
+          if ! [[ "$OSS_ENDPOINT" =~ ^oss-[a-z0-9-]+\.aliyuncs\.com$ ]]; then
+            echo "::error::ALIYUN_OSS_ENDPOINT must be like oss-cn-hangzhou.aliyuncs.com (see OSS console -> Bucket overview -> Endpoint)."
+            exit 1
+          fi
+          if ! getent hosts "$OSS_ENDPOINT" > /dev/null; then
+            echo "::error::Cannot resolve $OSS_ENDPOINT — check typo or use public endpoint (not *-internal.aliyuncs.com on GitHub runners)."
+            exit 1
+          fi
+
+          OSS_PREFIX="${OSS_PREFIX#/}"
+          OSS_PREFIX="${OSS_PREFIX%/}/"
+          DEST="oss://${OSS_BUCKET}/${OSS_PREFIX}"
+          echo "Syncing build/ -> ${DEST}"
+          echo "Endpoint: ${OSS_ENDPOINT}"
+          OSS_AUTH=(-e "$OSS_ENDPOINT" -i "$OSS_ACCESS_KEY_ID" -k "$OSS_ACCESS_KEY_SECRET")
+          ossutil sync build/ "$DEST" \
+            "${OSS_AUTH[@]}" \
+            --delete \
+            --force \
+            --jobs 10
+
+          # 无尾斜杠 URL（如 /docs/user-guide）→ OSS 对象 docs/user-guide（跳转 HTML）
+          if [ -f .oss-redirects/manifest.json ]; then
+            echo "Uploading no-trailing-slash redirect objects"
+            REDIRECT_COUNT=0
+            while IFS= read -r line; do
+              ossKey=$(echo "$line" | jq -r '.ossKey')
+              localFile=$(echo "$line" | jq -r '.localFile')
+              ossutil cp ".oss-redirects/${localFile}" "oss://${OSS_BUCKET}/${OSS_PREFIX}${ossKey}" \
+                "${OSS_AUTH[@]}" \
+                --meta "Content-Type:text/html; charset=utf-8"
+              REDIRECT_COUNT=$((REDIRECT_COUNT + 1))
+            done < <(jq -c '.[]' .oss-redirects/manifest.json)
+            echo "Uploaded ${REDIRECT_COUNT} redirect objects"
+            ossutil stat "oss://${OSS_BUCKET}/${OSS_PREFIX}user-guide" "${OSS_AUTH[@]}" || {
+              echo "::warning::docs/user-guide redirect object missing on OSS"
+            }
+          else
+            echo "::warning::.oss-redirects/manifest.json not found — push scripts/generate-oss-redirect-objects.mjs and redeploy"
+          fi
+
+          # 修正 MIME，避免浏览器把 index.html 当成附件下载（Content-Type 为 octet-stream）
+          OSS_URI="oss://${OSS_BUCKET}/${OSS_PREFIX}"
+          echo "Setting Content-Type metadata under ${OSS_URI}"
+          set_oss_meta() {
+            local include="$1"
+            local mime="$2"
+            ossutil set-meta "$OSS_URI" "Content-Type:${mime}" \
+              "${OSS_AUTH[@]}" -r -f --update --include "$include"
+          }
+          set_oss_meta "*.html" "text/html; charset=utf-8"
+          set_oss_meta "*.css" "text/css; charset=utf-8"
+          set_oss_meta "*.js" "application/javascript; charset=utf-8"
+          set_oss_meta "*.json" "application/json; charset=utf-8"
+          set_oss_meta "*.svg" "image/svg+xml"
+          set_oss_meta "*.xml" "application/xml"
+          set_oss_meta "*.txt" "text/plain; charset=utf-8"
+          set_oss_meta "*.png" "image/png"
+          set_oss_meta "*.jpg" "image/jpeg"
+          set_oss_meta "*.jpeg" "image/jpeg"
+          set_oss_meta "*.gif" "image/gif"
+          set_oss_meta "*.ico" "image/x-icon"
+          set_oss_meta "*.woff2" "font/woff2"
+          set_oss_meta "*.woff" "font/woff"
+          ossutil set-meta "$OSS_URI" "Content-Disposition:inline" \
+            "${OSS_AUTH[@]}" -r -f --update --include "*.html"
+
+          INDEX_KEY="${OSS_PREFIX}index.html"
+          echo "Verifying oss://${OSS_BUCKET}/${INDEX_KEY}"
+          ossutil stat "oss://${OSS_BUCKET}/${INDEX_KEY}" "${OSS_AUTH[@]}"
+          INDEX_SIZE=$(ossutil stat "oss://${OSS_BUCKET}/${INDEX_KEY}" "${OSS_AUTH[@]}" 2>&1 | awk -F': ' '/Content-Length/{print $2; exit}')
+          if [ -z "$INDEX_SIZE" ] || [ "$INDEX_SIZE" -eq 0 ]; then
+            echo "::error::${INDEX_KEY} is empty on OSS. Delete any 0-byte object named '${OSS_PREFIX%/}' or 'docs' in the bucket, then redeploy."
+            exit 1
+          fi
+          echo "OSS ${INDEX_KEY} size: ${INDEX_SIZE} bytes"
+
+      # 可选：刷新 CDN 缓存（需 RAM 具备 cdn:RefreshObjectCaches；失败不阻断部署）
+      - name: Refresh CDN cache
+        continue-on-error: true
+        env:
+          ALIBABA_CLOUD_ACCESS_KEY_ID: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_ID }}
+          ALIBABA_CLOUD_ACCESS_KEY_SECRET: ${{ secrets.ALIYUN_OSS_ACCESS_KEY_SECRET }}
+          CDN_REFRESH_URL: ${{ secrets.ALIYUN_CDN_REFRESH_URL }}
+          # CDN OpenAPI 地域，一般为 cn-hangzhou
+          ALIYUN_REGION: cn-hangzhou
+        run: |
+          if [ -z "$CDN_REFRESH_URL" ]; then
+            echo "Skipping CDN refresh: ALIYUN_CDN_REFRESH_URL secret is not set"
+            exit 0
+          fi
+          curl -fsSL https://aliyuncli.alicdn.com/aliyun-cli-linux-latest-amd64.tgz -o /tmp/aliyun-cli.tgz
+          tar -xzf /tmp/aliyun-cli.tgz -C /tmp
+          sudo install -m 755 /tmp/aliyun /usr/local/bin/aliyun
+          aliyun version
+          aliyun configure set --profile default --mode AK \
+            --access-key-id "$ALIBABA_CLOUD_ACCESS_KEY_ID" \
+            --access-key-secret "$ALIBABA_CLOUD_ACCESS_KEY_SECRET" \
+            --region "$ALIYUN_REGION"
+          if ! aliyun cdn RefreshObjectCaches \
+            --ObjectPath "$CDN_REFRESH_URL" \
+            --ObjectType Directory; then
+            echo "::warning::CDN refresh failed. Add cdn:RefreshObjectCaches to the RAM user, or remove ALIYUN_CDN_REFRESH_URL to skip. OSS upload is already complete."
+            exit 1
+          fi
+          echo "CDN cache refresh submitted for $CDN_REFRESH_URL"
