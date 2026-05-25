@@ -151,7 +151,7 @@ msg |  String |  响应描述
 参数名 |  是否必传 |  类型 |  说明  
 ---|---|---|---  
 customerId |  是 |  String |  被修改的客户id  
-customerState |  是 |  Integer |  关停状态 （0正常 1停用）  
+customerState |  是 |  Integer |  关停状态 （0关闭 1开启）  
 
 ### 返回结果：
 
