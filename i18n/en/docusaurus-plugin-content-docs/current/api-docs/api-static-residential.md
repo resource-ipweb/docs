@@ -1,4 +1,4 @@
----
+﻿---
 sidebar_position: 3
 slug: /api-static-residential
 description: Static residential proxy V2 API — countries, cities, purchase, renew, segment batch buy, and debugging.
@@ -45,7 +45,7 @@ None.
 
 ## 3. List cities
 
-**Method:** `GET /listCity`
+**Method:** `GET /v2/static-residential/listCity`
 
 **Description:** Returns cities for a given country.
 
@@ -77,7 +77,7 @@ None.
 
 ## 4. List business types
 
-**Method:** `GET /listBusiness`
+**Method:** `GET /v2/static-residential/listBusiness`
 
 **Description:** Returns available business/use-case names.
 
@@ -112,7 +112,7 @@ None.
 
 ## 5. Count available IPs
 
-**Method:** `POST /countIdleIP`
+**Method:** `POST /v2/static-residential/countIdleIP`
 
 **Description:** Returns available IP count for the given filters.
 
@@ -158,7 +158,7 @@ None.
 
 ## 6. Create static proxy IPs
 
-**Method:** `POST /newIP`
+**Method:** `POST /v2/static-residential/newIP`
 
 **Description:** Create a new static proxy order.
 
@@ -172,7 +172,7 @@ None.
 | city_name    | String  | No       | City; empty = random                | —                                    | New York  |
 | days         | Integer | Yes      | Lease duration (days)               | 1, 7, 15, 30, 60, 90, 365            | 30        |
 | count        | Integer | Yes      | Quantity                            | 1–500                                | 10        |
-| line_type    | Integer | Yes      | Quality: 1–3                        | 1–3                                  | 1         |
+| line_type    | Integer | Yes      | Quality: 1 basic, 2 standard, 3 premium | 1–3                                | 1         |
 | is_udp       | Integer | No       | UDP: 1 on, 0 off                     | 0–1, default 0                       | 0         |
 | business     | String  | Yes      | From `listBusiness`                 | —                                    | general   |
 | customer_id  | Integer | No       | Order on behalf of user; null = self  | —                                    | null      |
@@ -232,6 +232,13 @@ None.
         "node_port": 8080,
         "account": "user123",
         "password": "pass456"
+      },
+      {
+        "ip": "192.168.1.101",
+        "node_domain": "proxy2.example.com",
+        "node_port": 8080,
+        "account": "user124",
+        "password": "pass457"
       }
     ]
   }
@@ -242,7 +249,7 @@ None.
 
 ## 7. Renew static proxy
 
-**Method:** `POST /renewIP`
+**Method:** `POST /v2/static-residential/renewIP`
 
 **Description:** Renew an existing static proxy IP.
 
@@ -266,7 +273,21 @@ None.
 
 #### Response format
 
-Same structure as create order (`data.order_id`, `data.allots`, etc.).
+| Field                 | Type            | Description           |
+| --------------------- | --------------- | --------------------- |
+| data                  | Object          | Renewal result        |
+| data.order_id         | String          | Renewal order ID      |
+| data.total            | Integer         | IPs renewed           |
+| data.amount           | Double          | Renewal amount        |
+| data.currency         | String          | Currency              |
+| data.created_at       | Date            | Renewed at            |
+| data.expired_at       | Date            | New expiry time       |
+| data.allots           | Array`<Object>` | Renewed proxies       |
+| data.allots[].ip      | String          | Renewed IP            |
+| data.allots[].node_domain | String      | Proxy host            |
+| data.allots[].node_port   | Integer     | Proxy port            |
+| data.allots[].account     | String      | Username              |
+| data.allots[].password    | String      | Password              |
 
 #### Response example
 
@@ -302,15 +323,15 @@ Same structure as create order (`data.order_id`, `data.allots`, etc.).
 
 **Method:** `POST /availableIpSegments`
 
-**Description:** Returns remaining purchasable quantity per IP segment for the authenticated user (no extra user fields in body).
+**Description:** Query remaining purchasable IP list by filters. Returns only each IP segment and its available quantity. User info is taken from authentication; no need to pass it in the request.
 
 #### Request parameters
 
-| Name         | Type    | Required | Description                    | Example  |
-| ------------ | ------- | -------- | ------------------------------ | -------- |
-| country_code | String  | Yes      | Country/region code            | HK       |
-| city_name    | String  | No       | City; empty = random           | HongKong |
-| line_type    | Integer | No       | Quality 1–3; default 1         | 1        |
+| Name         | Type    | Required | Description                    | Constraints     | Example  |
+| ------------ | ------- | -------- | ------------------------------ | --------------- | -------- |
+| country_code | String  | Yes      | Country/region code            | e.g. HK, US     | HK       |
+| city_name    | String  | No       | City; empty = random           | —               | HongKong |
+| line_type    | Integer | No       | Quality: 1 basic, 2 standard, 3 premium | 1–3, default 1 | 1        |
 
 #### Request example
 
@@ -326,7 +347,7 @@ Same structure as create order (`data.order_id`, `data.allots`, etc.).
 
 | Field                      | Type            | Description                    |
 | -------------------------- | --------------- | ------------------------------ |
-| data                       | Object          | Result                         |
+| data                       | Object          | Query result                   |
 | data.total_quantity        | Integer         | Total available across segments |
 | data.segments              | Array`<Object>` | Per-segment inventory          |
 | data.segments[].ip_segment | String          | CIDR, e.g. `62.72.182.0/24`    |
@@ -356,22 +377,22 @@ Same structure as create order (`data.order_id`, `data.allots`, etc.).
 
 **Method:** `POST /batchPurchaseBySegment`
 
-**Description:** Purchase a total count across multiple segment prefixes in order until the count is met. Authenticated agent users only.
+**Description:** Specify multiple IP segment prefixes (e.g. `66.92.226`, `66.93.86`) plus a total count; allocate in segment order until the count is met. Authenticated user only. Returns order ID, allocated count, and expiry time.
 
-**Permission:** Customer access control (agent).
+**Permission:** Customer access control required (agent users).
 
 #### Request parameters
 
-| Name                | Type            | Required | Description                                      | Example                |
-| ------------------- | --------------- | -------- | -------------------------------------------------- | ---------------------- |
-| country_code        | String          | Yes      | Country/region                                     | HK                     |
-| city_name           | String          | No       | City; empty = random                               | HongKong               |
-| line_type           | Integer         | No       | Quality 1–3; default 1                             | 2                      |
-| business            | String          | No       | From `listBusiness`; default `other`               | other                  |
-| ip_segment_prefixes | Array`<String>` | Yes      | Prefix list in allocation order                    | `["66.92.226","66.93.86"]` |
-| count               | Integer         | Yes      | Total IPs to allocate                              | 20                     |
-| days                | Integer         | Yes      | Lease days                                         | 30                     |
-| is_udp              | Integer         | No       | UDP 1/0; default 0                                 | 0                      |
+| Name                | Type            | Required | Description                                      | Constraints              | Example                |
+| ------------------- | --------------- | -------- | -------------------------------------------------- | ------------------------ | ---------------------- |
+| country_code        | String          | Yes      | Country/region                                     | e.g. HK, US              | HK                     |
+| city_name           | String          | No       | City; empty = random                               | —                        | HongKong               |
+| line_type           | Integer         | No       | Quality: 1 basic, 2 standard, 3 premium              | 1–3, default 1           | 2                      |
+| business            | String          | No       | From `listBusiness`                                | default `other`          | other                  |
+| ip_segment_prefixes | Array`<String>` | Yes      | Prefix list in allocation order. e.g. `["66.92.226","66.93.86"]` allocates from `66.92.226.x` first, then `66.93.86.x` if needed | — | `["66.92.226","66.93.86"]` |
+| count               | Integer         | Yes      | Total IPs to allocate from selected segments       | 1–500                    | 20                     |
+| days                | Integer         | Yes      | Lease days                                         | 1, 7, 15, 30, 60, 90, 365 | 30                  |
+| is_udp              | Integer         | No       | UDP: 1 on, 0 off                                   | 0–1, default 0           | 0                      |
 
 #### Request example
 
@@ -390,11 +411,12 @@ Same structure as create order (`data.order_id`, `data.allots`, etc.).
 
 #### Response format
 
-| Field           | Type   | Description        |
-| --------------- | ------ | ------------------ |
-| data.order_id   | String | Order ID           |
-| data.total      | Integer | Allocated count   |
-| data.expired_at | String | ISO 8601 expiry    |
+| Field           | Type    | Description        |
+| --------------- | ------- | ------------------ |
+| data            | Object  | Order info         |
+| data.order_id   | String  | Order ID           |
+| data.total      | Integer | Allocated count    |
+| data.expired_at | String  | ISO 8601 expiry    |
 
 #### Response example
 
@@ -418,30 +440,31 @@ Same structure as create order (`data.order_id`, `data.allots`, etc.).
 
 **Method:** `GET /orderAllots`
 
-**Description:** Returns all IPs for an order (no pagination). Authenticated user’s orders only.
+**Description:** Returns all allocated IPs for an order (no pagination). Authenticated user can only query their own orders. Does not return order ID; returns allocation list only.
 
 **Permission:** Customer access control required.
 
 #### Request parameters
 
-| Name     | Type   | Required | Description | Example        |
-| -------- | ------ | -------- | ----------- | -------------- |
-| order_id | String | Yes      | Query param | SO202401010001 |
+| Name     | Type   | Required | Description | Constraints | Example        |
+| -------- | ------ | -------- | ----------- | ----------- | -------------- |
+| order_id | String | Yes      | Order ID    | Query param | SO202401010001 |
 
 **Example:** `GET /orderAllots?order_id=SO202401010001`
 
 #### Response format
 
-`data` is an array of allocations:
+`data` is an array of all allocated IPs for the order.
 
-| Field            | Type    | Description      |
-| ---------------- | ------- | ---------------- |
-| ip               | String  | Exit IP          |
-| node_domain      | String  | Proxy host       |
-| node_port        | Integer | Port             |
-| account          | String  | Username         |
-| password         | String  | Password         |
-| expired_at       | String  | ISO 8601 expiry  |
+| Field              | Type    | Description      |
+| ------------------ | ------- | ---------------- |
+| data               | Array   | Allocation list (see fields below) |
+| data[].ip          | String  | Exit IP          |
+| data[].node_domain | String  | Proxy host       |
+| data[].node_port   | Integer | Port             |
+| data[].account     | String  | Username         |
+| data[].password    | String  | Password         |
+| data[].expired_at  | String  | ISO 8601 expiry  |
 
 #### Response example
 
@@ -468,7 +491,8 @@ Same structure as create order (`data.order_id`, `data.allots`, etc.).
 
 ## 11. Debug / test
 
-Use the examples below or tools such as Postman.
+You can use the following examples to test the API:
+
 
 ### List countries
 
@@ -523,7 +547,7 @@ curl -X POST "http://user.ipweb.cc/prod-api/v2/static-residential/newIP" \
      }'
 ```
 
-### Renew
+### Renew static proxy
 
 ```bash
 curl -X POST "http://user.ipweb.cc/prod-api/v2/static-residential/renewIP" \
@@ -535,7 +559,7 @@ curl -X POST "http://user.ipweb.cc/prod-api/v2/static-residential/renewIP" \
      }'
 ```
 
-### Available segments
+### List purchasable IP segments
 
 ```bash
 curl -X POST "http://user.ipweb.cc/prod-api/v2/static-residential/availableIpSegments" \
@@ -566,18 +590,20 @@ curl -X POST "http://user.ipweb.cc/prod-api/v2/static-residential/batchPurchaseB
      }'
 ```
 
-### Order allocations
+### List allocated IPs by order ID
 
 ```bash
 curl -X GET "http://user.ipweb.cc/prod-api/v2/static-residential/orderAllots?order_id=SO202401010001" \
      -H "Token: your_access_token_here"
 ```
 
-**Note:** Replace `your_access_token_here` with your real token.
+**Note:** Replace `your_access_token_here` with your real token. We recommend using Postman or another API testing tool.
 
 ---
 
 ## 12. Error codes
+
+The following error codes may be returned by static IP APIs:
 
 ### Static IP business errors
 
