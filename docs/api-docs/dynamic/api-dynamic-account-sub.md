@@ -158,7 +158,7 @@ data |  |  Array |
 ```
 ## 6. 获取用户
 
-**GET** `{baseUrl}/api/agent/account?country=us&time=5`
+**GET** `{baseUrl}/api/agent/account?country=us&times=5`
 
 ### 请求参数：
 
@@ -190,7 +190,7 @@ data |  |  Json |
 ```
 ## 7. 批量获取用户
 
-**GET** `{baseUrl}/api/agent/account2?country=us&time=5&limit=3`
+**GET** `{baseUrl}/api/agent/account2?country=us&times=5&limit=3`
 
 
 ### 请求参数：

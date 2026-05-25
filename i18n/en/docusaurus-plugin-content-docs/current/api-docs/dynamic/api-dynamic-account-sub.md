@@ -155,7 +155,7 @@ Base URL (`baseUrl`): `http://api.ipweb.cc:8004`
 
 ## 6. Get proxy user
 
-**GET** `{baseUrl}/api/agent/account?country=us&time=5`
+**GET** `{baseUrl}/api/agent/account?country=us&times=5`
 
 ### Request parameters
 
@@ -189,7 +189,7 @@ Base URL (`baseUrl`): `http://api.ipweb.cc:8004`
 
 ## 7. Batch get proxy users
 
-**GET** `{baseUrl}/api/agent/account2?country=us&time=5&limit=3`
+**GET** `{baseUrl}/api/agent/account2?country=us&times=5&limit=3`
 
 ### Request parameters
 
