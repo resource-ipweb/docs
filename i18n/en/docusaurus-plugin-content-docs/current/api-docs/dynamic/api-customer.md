@@ -148,10 +148,10 @@ curl -X GET "http://user.ipweb.cc/prod-api/open/customer/list?pageNum=1&pageSize
 
 ### Request parameters
 
-| Name          | Required | Type    | Description                    |
-| ------------- | -------- | ------- | ------------------------------ |
-| customerId    | Yes      | String  | Target customer ID             |
-| customerState | Yes      | Integer | `0` = active; `1` = disabled   |
+| Name          | Required | Type    | Description                  |
+| ------------- | -------- | ------- |------------------------------|
+| customerId    | Yes      | String  | Target customer ID           |
+| customerState | Yes      | Integer | `1` = active; `0` = disabled |
 
 ### Response fields
 
