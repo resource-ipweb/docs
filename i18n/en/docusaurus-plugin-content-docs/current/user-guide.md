@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 2
 slug: /user-guide
 description: IPWEB proxy user guide — export dynamic residential proxies, parse proxy strings, verify connectivity, custom account rules, and choose proxy gateways.
 ---
