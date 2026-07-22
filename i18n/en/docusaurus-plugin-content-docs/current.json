@@ -10,5 +10,17 @@
   "sidebar.defaultSidebar.category.动态代理": {
     "message": "Dynamic Proxy",
     "description": "The label for category '动态代理' in sidebar 'defaultSidebar'"
+  },
+  "sidebar.defaultSidebar.category.configuration-guide": {
+    "message": "Configuration Tutorials",
+    "description": "The label for category '配置教程' in sidebar 'defaultSidebar'"
+  },
+  "sidebar.defaultSidebar.category.config-static-proxy": {
+    "message": "Static Proxy",
+    "description": "The label for category '静态代理' in sidebar 'defaultSidebar'"
+  },
+  "sidebar.defaultSidebar.category.config-dynamic-proxy": {
+    "message": "Dynamic Proxy",
+    "description": "The label for category '动态代理' in sidebar 'defaultSidebar'"
   }
 }
