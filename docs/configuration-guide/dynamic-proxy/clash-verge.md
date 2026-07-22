@@ -3,13 +3,14 @@ sidebar_position: 1
 sidebar_label: Clash Verge 配置使用教程
 description: 在 Clash Verge 中配置 IPWeb 动态住宅代理的完整教程。
 ---
-# IPWeb 代理 IP 配置使用教程 — Clash Verge
+# Clash Verge 配置使用教程
 
 ***在使用 IPWeb 代理服务之前，请确保您的网络环境可以正常访问境外资源。如遇连接问题，请检查本地网络或联系客服获取协助。***
 
 IPWeb 提供全球 **7000 万+ 纯净住宅 IP**，覆盖 **220+ 国家/地区**，支持 HTTP/HTTPS/SOCKS5 三种协议，可满足数据采集、账号运营、广告验证等多种业务场景。本教程将引导你完成从注册购买到在 **Clash Verge** 客户端中完成配置的全流程。
 
 > 遇到问题随时联系我们：Telegram [t.me/ipwebadmin](https://t.me/ipwebadmin) | 电话 13064703052 | QQ（扫码） | 微信（扫码）
+>
 > <img src="https://oss.ipweb.cc/docs/imgs/en/2026/07/contact-qcode-qq.png" alt="QQ二维码" width="160" /> <img src="https://oss.ipweb.cc/docs/imgs/en/2026/07/contact-qcode-email.png" alt="微信二维码" width="160" />
 ---
 
@@ -100,8 +101,6 @@ IPWeb 支持以下付款方式：
 
 ![充值历史记录](https://oss.ipweb.cc/docs/imgs/2026/07/image8.png)
 
----
-
 
 ## Clash Verge 配置 IPWeb 代理 IP
 
@@ -109,7 +108,7 @@ IPWeb 支持以下付款方式：
 
 配置前请确保你已经完成了上一节的购买流程，并拿到了代理连接信息（代理服务器地址、端口号、用户名、密码）。
 
-### 第一步：准备代理连接信息
+### 1、准备代理连接信息
 
 确认你手上有以下四项信息：
 
@@ -117,7 +116,7 @@ IPWeb 支持以下付款方式：
 - **端口号**
 - **用户名**
 - **密码**
-### 第二步：编辑 Clash Verge 配置文件
+### 2、编辑 Clash Verge 配置文件
 
 打开 **Clash Verge** 客户端，按以下步骤操作：
 
@@ -165,13 +164,13 @@ proxy-groups:[]
 
 ![右键IPWeb配置卡片选择使用以激活](https://oss.ipweb.cc/docs/imgs/2026/07/clash-verge-step2-5.png)
 
-### 第三步：切换到 IPWeb 代理节点
+### 3、切换到 IPWeb 代理节点
 
 回到左侧导航栏，点击「**代理**」。在代理组列表中找到刚才添加的 **IPWeb 节点**（`proxy1`），点击选中它。
 
 ![在代理页面选中IPWeb节点](https://oss.ipweb.cc/docs/imgs/2026/07/clash-verge-step4.png)
 
-### 第四步：开启系统代理并验证
+### 4、开启系统代理并验证
 
 确认以下两项均已就绪：
 
@@ -186,7 +185,7 @@ proxy-groups:[]
 
 > 如果 IP 检测显示的是你本地 IP，请确认：① Proxies 页面当前选中的节点是 IPWeb 节点；② 首页系统代理开关已打开；③ 配置文件中的占位符已替换为实际的连接信息。
 
-### 第五步：规则分流（可选）
+### 5、规则分流（可选）
 
 如果你希望只有特定流量走 IPWeb 代理，而其他流量继续走原有节点或直连，可以在配置的 `rules` 部分添加分流规则：
 
@@ -206,7 +205,12 @@ rules:
 > - **Telegram**: [t.me/ipwebadmin](https://t.me/ipwebadmin)
 > - **电话**: 13064703052
 > - **QQ**:（扫码添加）
+>
+> <img src="https://oss.ipweb.cc/docs/imgs/en/2026/07/contact-qcode-qq.png" alt="QQ二维码" width="160" />
+>
 > - **微信**:（扫码添加）
+>
+> <img src="https://oss.ipweb.cc/docs/imgs/en/2026/07/contact-qcode-email.png" alt="微信二维码" width="160" />
 > - **帮助文档**: [https://docs.ipweb.cc/](https://docs.ipweb.cc/)
 >
 > 更多客户端配置教程（NekoBox、v2rayN 等）请访问 [IPWeb 代理IP与技术文章中心](https://ipweb.cc/blog/)。

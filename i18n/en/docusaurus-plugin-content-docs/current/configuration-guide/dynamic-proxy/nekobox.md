@@ -3,7 +3,7 @@ sidebar_position: 3
 sidebar_label: NekoBox Configuration Guide
 description: Complete guide to configuring IPWeb dynamic residential proxies in NekoBox (Windows).
 ---
-# IPWeb Proxy Configuration Guide — NekoBox (Windows)
+# NekoBox Configuration Guide
 
 ***Before using IPWeb proxy services, make sure your network can access international resources normally. If you encounter connection issues, check your local network or contact customer support for assistance.***
 
@@ -106,7 +106,7 @@ This guide is written for the **NekoBox** client. NekoBox is a Windows proxy too
 
 Before configuring, make sure you have completed the purchase workflow in the previous section and have your proxy connection details (proxy server address, port, username, password). Also confirm you have installed the latest version of [NekoRay](https://github.com/MatsuriDayo/nekoray).
 
-### Step 1: Prepare Proxy Connection Details
+### 1. Prepare Proxy Connection Details
 
 Confirm you have the following four items:
 
@@ -118,7 +118,7 @@ Confirm you have the following four items:
 > If you purchased **dynamic residential proxies**, these details are in the txt file you generated and downloaded; for **static residential proxies**, view them under **Purchased Line Details**.  
 > File format: `server_address:port:username:password`, separated by `:`.
 
-### Step 2: Add an IPWeb Proxy Node
+### 2. Add an IPWeb Proxy Node
 
 Open the **NekoBox** client and follow these steps:
 
@@ -153,7 +153,7 @@ When finished, click **OK** at the bottom of the dialog to save the node.
 
 ![NekoBox edit dialog](https://oss.ipweb.cc/docs/imgs/2026/07/nekoray-step2.png)
 
-### Step 3: Confirm the Node Was Added
+### 3. Confirm the Node Was Added
 
 After saving, return to the main screen. You should see the newly added node in the **server list** with type `Socks` and the correct address and name.
 
@@ -161,7 +161,7 @@ After saving, return to the main screen. You should see the newly added node in 
 
 > If you have multiple IPWeb proxies (for example, after bulk export), repeat Step 2 to add each one. You can switch between nodes freely afterward.
 
-### Step 4: Start the Node and Enable System Proxy
+### 4. Start the Node and Enable System Proxy
 
 Make sure both of the following are ready:
 
@@ -187,7 +187,7 @@ Open a browser and visit `https://ipinfo.io` or another IP lookup site to verify
 > 3. Confirm the address, port, username, and password in the node settings exactly match what IPWeb provided
 > 4. Confirm the protocol type (Socks / HTTP) matches what you selected when purchasing
 
-### Step 5: Routing Rules for Split Traffic (Optional)
+### 5. Routing Rules for Split Traffic (Optional)
 
 If you want only specific traffic to use the IPWeb proxy while other traffic continues through your existing node or direct connection, use NekoBox's **routing rules** feature. Click **Settings** in the top menu bar and add custom rules on the **Routing Rules** tab, for example:
 
@@ -206,7 +206,12 @@ Only traffic matching the rules will be sent through the IPWeb proxy; all other 
 > - **Telegram**: [t.me/ipwebadmin](https://t.me/ipwebadmin)
 > - **Phone**: 13064703052
 > - **QQ**: (scan QR code to add)
+>
+> <img src="https://oss.ipweb.cc/docs/imgs/en/2026/07/contact-qcode-qq.png" alt="QQ QR code" width="160" />
+>
 > - **WeChat**: (scan QR code to add)
+>
+> <img src="https://oss.ipweb.cc/docs/imgs/en/2026/07/contact-qcode-email.png" alt="WeChat QR code" width="160" />
 > - **Help docs**: [https://docs.ipweb.cc/](https://docs.ipweb.cc/)
 >
 > For more client configuration guides (Clash Verge, v2rayN, etc.), visit the [IPWeb Proxy IP & Technical Articles Hub](https://ipweb.cc/blog/).

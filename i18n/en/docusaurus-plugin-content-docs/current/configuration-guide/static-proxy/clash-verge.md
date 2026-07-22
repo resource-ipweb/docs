@@ -3,15 +3,16 @@ sidebar_position: 1
 sidebar_label: Clash Verge Configuration Guide
 description: Complete guide to configuring IPWeb static residential proxies in Clash Verge.
 ---
-# IPWeb Proxy IP Configuration Guide — Clash Verge
+# Clash Verge Configuration Guide
 
 ***Before using IPWeb proxy services, make sure your network can access international resources normally. If you encounter connection issues, check your local network or contact customer support for assistance.***
 
 IPWeb provides **70 million+ clean residential IPs** worldwide across **220+ countries/regions**, supporting HTTP, HTTPS, and SOCKS5 protocols for use cases such as data collection, account operations, and ad verification. This guide walks you through the full workflow—from registration and purchase to configuring proxies in the **Clash Verge** client.
 
 > Need help? Contact us anytime: Telegram [t.me/ipwebadmin](https://t.me/ipwebadmin) | Phone 13064703052 | QQ (scan QR code) | WeChat (scan QR code)
+>
 > <img src="https://oss.ipweb.cc/docs/imgs/en/2026/07/contact-qcode-qq.png" alt="QQ QR code" width="160" /> <img src="https://oss.ipweb.cc/docs/imgs/en/2026/07/contact-qcode-email.png" alt="WeChat QR code" width="160" />
----
+
 
 ## Getting Started
 
@@ -72,10 +73,6 @@ Complete payment in the dashboard under **财务管理 > 充值中心 (Finance >
 
 ### 5. Retrieve Proxy Connection Details
 
-After purchase, you need the specific proxy connection details before configuring your client.
-
-**Static residential proxies:**
-
 After purchase, go to **已购线路明细 (Purchased Line Details)** in the left navigation bar to view your dedicated:
 
 - **Static IP address**
@@ -93,7 +90,7 @@ This guide is written for the **Clash Verge** client. Clash Verge is a Windows /
 
 Before configuring, complete the purchase workflow in the previous section and have your proxy connection details ready (proxy server address, port, username, and password).
 
-### Step 1: Prepare Proxy Connection Details
+### 1. Prepare Proxy Connection Details
 
 Confirm you have the following four items:
 
@@ -104,7 +101,7 @@ Confirm you have the following four items:
 
 > If you purchased **dynamic residential proxies**, these details are in the txt file you generated and downloaded; for **static residential proxies**, view them under **已购线路明细 (Purchased Line Details)**.
 
-### Step 2: Edit the Clash Verge Configuration File
+### 2. Edit the Clash Verge Configuration File
 
 Open the **Clash Verge** client and follow these steps:
 
@@ -152,13 +149,13 @@ Return to the Profiles page, find the **IPWeb** profile card, right-click it, an
 
 ![Right-click IPWeb profile and select Use to activate](https://oss.ipweb.cc/docs/imgs/2026/07/clash-verge-step2-5.png)
 
-### Step 3: Switch to the IPWeb Proxy Node
+### 3. Switch to the IPWeb Proxy Node
 
 In the left navigation bar, click **代理 (Proxies)**. In the proxy group list, find the **IPWeb node** you added (`proxy1`) and select it.
 
 ![Select the IPWeb node on the Proxies page](https://oss.ipweb.cc/docs/imgs/2026/07/clash-verge-step4.png)
 
-### Step 4: Enable System Proxy and Verify
+### 4. Enable System Proxy and Verify
 
 Confirm both of the following are ready:
 
@@ -173,7 +170,7 @@ Open a browser and visit `https://ipinfo.io` or another IP lookup site to check 
 
 > If the IP check shows your local IP, verify: ① the IPWeb node is selected on the Proxies page; ② the system proxy toggle is on on the Home page; ③ placeholders in the configuration file have been replaced with actual connection details.
 
-### Step 5: Rule-Based Split Routing (Optional)
+### 5. Rule-Based Split Routing (Optional)
 
 If you want only specific traffic to use the IPWeb proxy while other traffic continues through your existing nodes or direct connection, add split-routing rules in the `rules` section of your configuration:
 
@@ -193,7 +190,12 @@ With this setup, only requests to the target domain (e.g., `target-website.com`)
 > - **Telegram**: [t.me/ipwebadmin](https://t.me/ipwebadmin)
 > - **Phone**: 13064703052
 > - **QQ**: (scan QR code to add)
+>
+> <img src="https://oss.ipweb.cc/docs/imgs/en/2026/07/contact-qcode-qq.png" alt="QQ QR code" width="160" />
+>
 > - **WeChat**: (scan QR code to add)
+>
+> <img src="https://oss.ipweb.cc/docs/imgs/en/2026/07/contact-qcode-email.png" alt="WeChat QR code" width="160" />
 > - **Help docs**: [https://docs.ipweb.cc/](https://docs.ipweb.cc/)
 >
 > For more client configuration guides (NekoBox, v2rayN, etc.), visit the [IPWeb Proxy IP & Technical Articles Hub](https://ipweb.cc/blog/).

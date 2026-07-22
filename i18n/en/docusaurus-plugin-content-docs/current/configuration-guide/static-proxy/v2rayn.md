@@ -3,7 +3,7 @@ sidebar_position: 2
 sidebar_label: v2rayN Configuration Guide
 description: Complete guide to configuring IPWeb static residential proxies in v2rayN.
 ---
-# IPWeb Proxy IP Configuration Guide — v2rayN
+# v2rayN Configuration Guide
 
 ***Before using IPWeb proxy services, make sure your network can access international resources normally. If you encounter connection issues, check your local network or contact customer support for assistance.***
 
@@ -13,7 +13,6 @@ IPWeb provides **70 million+ clean residential IPs** worldwide across **220+ cou
 >
 > <img src="https://oss.ipweb.cc/docs/imgs/en/2026/07/contact-qcode-qq.png" alt="QQ QR code" width="160" /> <img src="https://oss.ipweb.cc/docs/imgs/en/2026/07/contact-qcode-email.png" alt="WeChat QR code" width="160" />
 
----
 ## Getting Started
 
 ### 1. Create an Account
@@ -72,10 +71,6 @@ Complete payment in the dashboard under **财务管理 > 充值中心 (Finance >
 
 ### 5. Retrieve Proxy Connection Details
 
-After purchase, you need the specific proxy connection details before configuring your client.
-
-**Static residential proxies:**
-
 After purchase, go to **已购线路明细 (Purchased Line Details)** in the left navigation bar to view your dedicated:
 
 - **Static IP address**
@@ -85,7 +80,6 @@ After purchase, go to **已购线路明细 (Purchased Line Details)** in the lef
 You can use these details directly in your client configuration.
 
 ![Purchased line details](https://oss.ipweb.cc/docs/imgs/2026/07/image7.jpeg)
----
 
 ## Configure IPWeb Proxies in v2rayN
 
@@ -93,7 +87,7 @@ This guide is written for the **v2rayN** client. v2rayN is a Windows proxy tool 
 
 Before configuring, complete the purchase workflow in the previous section and have your proxy connection details ready (proxy server address, port, username, and password).
 
-### Step 1: Prepare Proxy Connection Details
+### 1. Prepare Proxy Connection Details
 
 Confirm you have the following four items:
 
@@ -106,7 +100,7 @@ Confirm you have the following four items:
 >
 > Each line in the txt file follows the format `server_address:port:username:password` and can be used directly in order.
 
-### Step 2: Add an HTTP / SOCKS5 Proxy Server
+### 2. Add an HTTP / SOCKS5 Proxy Server
 
 Open the **v2rayN** client and follow these steps:
 
@@ -137,7 +131,7 @@ Leave all other fields (transport layer, transport protocol, etc.) at their defa
 
 After confirming the five key fields above are correct, click **确定 (OK)**. The newly added server will appear immediately in the **server list** on the v2rayN main window.
 
-### Step 3: Set as Active Node and Test Latency
+### 3. Set as Active Node and Test Latency
 
 **① Right-click the node to set it as active**
 
@@ -155,7 +149,7 @@ After the latency test completes, the **延迟 (ms) (Delay (ms))** column on the
 
 ![v2rayN test passed — latency displayed normally](https://oss.ipweb.cc/docs/imgs/2026/07/v2rayn-step4.png)
 
-### Step 4: Enable Tun Mode and Verify Exit IP
+### 4. Enable Tun Mode and Verify Exit IP
 
 **① Enable Tun mode**
 
