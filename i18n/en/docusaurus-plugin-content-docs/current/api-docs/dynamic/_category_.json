@@ -1,5 +1,6 @@
 {
   "label": "Dynamic Proxy",
+  "key": "api-dynamic-proxy",
   "position": 1,
   "link": {
     "type": "generated-index",

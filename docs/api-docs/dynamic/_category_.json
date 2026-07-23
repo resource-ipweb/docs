@@ -1,5 +1,6 @@
 {
   "label": "动态代理",
+  "key": "api-dynamic-proxy",
   "position": 1,
   "link": {
     "type": "generated-index",

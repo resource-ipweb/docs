@@ -3,24 +3,44 @@
     "message": "Next",
     "description": "The label for version current"
   },
-  "sidebar.defaultSidebar.category.开放平台": {
+  "sidebar.defaultSidebar.category.open-platform": {
     "message": "Open Platform",
     "description": "The label for category '开放平台' in sidebar 'defaultSidebar'"
   },
-  "sidebar.defaultSidebar.category.动态代理": {
+  "sidebar.defaultSidebar.category.open-platform.link.generated-index.description": {
+    "message": "Open Platform API documentation",
+    "description": "The generated-index page description for category '开放平台' in sidebar 'defaultSidebar'"
+  },
+  "sidebar.defaultSidebar.category.api-dynamic-proxy": {
     "message": "Dynamic Proxy",
     "description": "The label for category '动态代理' in sidebar 'defaultSidebar'"
+  },
+  "sidebar.defaultSidebar.category.api-dynamic-proxy.link.generated-index.description": {
+    "message": "Dynamic proxy API documentation",
+    "description": "The generated-index page description for category '动态代理' in sidebar 'defaultSidebar'"
   },
   "sidebar.defaultSidebar.category.configuration-guide": {
     "message": "Configuration Tutorials",
     "description": "The label for category '配置教程' in sidebar 'defaultSidebar'"
   },
+  "sidebar.defaultSidebar.category.configuration-guide.link.generated-index.description": {
+    "message": "Proxy client configuration tutorials",
+    "description": "The generated-index page description for category '配置教程' in sidebar 'defaultSidebar'"
+  },
   "sidebar.defaultSidebar.category.config-static-proxy": {
     "message": "Static Proxy",
     "description": "The label for category '静态代理' in sidebar 'defaultSidebar'"
   },
+  "sidebar.defaultSidebar.category.config-static-proxy.link.generated-index.description": {
+    "message": "Static proxy configuration tutorials",
+    "description": "The generated-index page description for category '静态代理' in sidebar 'defaultSidebar'"
+  },
   "sidebar.defaultSidebar.category.config-dynamic-proxy": {
     "message": "Dynamic Proxy",
     "description": "The label for category '动态代理' in sidebar 'defaultSidebar'"
+  },
+  "sidebar.defaultSidebar.category.config-dynamic-proxy.link.generated-index.description": {
+    "message": "Dynamic proxy configuration tutorials",
+    "description": "The generated-index page description for category '动态代理' in sidebar 'defaultSidebar'"
   }
 }
