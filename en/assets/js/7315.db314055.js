@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs_ipweb=self.webpackChunkdocs_ipweb||[]).push([["7315"],{6366(e,c,s){s.d(c,{createArchitectureServices:()=>r.S});var r=s(8980);s(7342)}}]);

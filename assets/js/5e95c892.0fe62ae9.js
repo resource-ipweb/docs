@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs_ipweb=self.webpackChunkdocs_ipweb||[]).push([["1668"],{6569(e,s,r){r.r(s),r.d(s,{default:()=>t});var c=r(4848);r(6540);var a=r(4164),u=r(4308),d=r(8287),n=r(2831),p=r(6525);function t(e){return(0,c.jsx)(u.e3,{className:(0,a.A)(d.G.wrapper.docsPages),children:(0,c.jsx)(p.A,{children:(0,n.v)(e.route.routes)})})}}}]);

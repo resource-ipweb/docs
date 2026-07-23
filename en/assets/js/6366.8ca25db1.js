@@ -1,1 +1,0 @@
-"use strict";(globalThis.webpackChunkdocs_ipweb=globalThis.webpackChunkdocs_ipweb||[]).push([[6366],{6366:(e,c,s)=>{s.d(c,{createArchitectureServices:()=>i.S});var i=s(8980);s(7960)}}]);
