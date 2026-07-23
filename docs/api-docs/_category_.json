@@ -1,4 +1,9 @@
 {
   "label": "开放平台",
-  "position": 3
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "开放平台 API 接口文档",
+    "slug": "/category/open-platform"
+  }
 }

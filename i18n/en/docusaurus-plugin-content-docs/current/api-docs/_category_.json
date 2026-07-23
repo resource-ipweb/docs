@@ -1,4 +1,9 @@
 {
   "label": "Open Platform",
-  "position": 3
+  "position": 3,
+  "link": {
+    "type": "generated-index",
+    "description": "Open Platform API documentation",
+    "slug": "/category/open-platform"
+  }
 }

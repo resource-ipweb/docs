@@ -1,4 +1,9 @@
 {
   "label": "Dynamic Proxy",
-  "position": 1
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "Dynamic proxy API documentation",
+    "slug": "/category/api-dynamic-proxy"
+  }
 }

@@ -1,5 +1,10 @@
 ﻿{
   "label": "配置教程",
   "key": "configuration-guide",
-  "position": 4
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "代理客户端配置使用教程",
+    "slug": "/category/configuration-guide"
+  }
 }
