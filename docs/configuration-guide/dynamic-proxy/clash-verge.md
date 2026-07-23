@@ -12,7 +12,6 @@ IPWeb 提供全球 **7000 万+ 纯净住宅 IP**，覆盖 **220+ 国家/地区**
 > 遇到问题随时联系我们：Telegram [t.me/ipwebadmin](https://t.me/ipwebadmin) | 电话 13064703052 | QQ（扫码） | 微信（扫码）
 >
 > <img src="https://oss.ipweb.cc/docs/imgs/en/2026/07/contact-qcode-qq.png" alt="QQ二维码" width="160" /> <img src="https://oss.ipweb.cc/docs/imgs/en/2026/07/contact-qcode-email.png" alt="微信二维码" width="160" />
----
 
 ## 基础流程
 
@@ -25,9 +24,9 @@ IPWeb 提供全球 **7000 万+ 纯净住宅 IP**，覆盖 **220+ 国家/地区**
 
 第二步，在注册页面填写你的**邮箱地址**和**登录密码**；也可以直接使用 **Gmail 账号**快捷注册（推荐），省去额外的密码设置步骤。
 
-第三步，前往邮箱查收验证邮件，点击邮件中的**确认链接**完成邮箱验证。如果收件箱没有看到邮件，请检查垃圾邮件文件夹。（部分邮箱可能有延迟，耐心等待几分钟即可）
-
 ![IPWeb注册/登录](https://oss.ipweb.cc/docs/imgs/2026/07/image2.png)
+
+第三步，前往邮箱查收验证邮件，点击邮件中的**确认链接**完成邮箱验证。如果收件箱没有看到邮件，请检查垃圾邮件文件夹。（部分邮箱可能有延迟，耐心等待几分钟即可）
 
 ### 2、领取试用流量
 
@@ -64,22 +63,8 @@ IPWeb 提供全球 **7000 万+ 纯净住宅 IP**，覆盖 **220+ 国家/地区**
 
 请妥善保存该文件，后续在 Clash Verge 中配置时会用到。
 
-### 4、充值与支付
 
-IPWeb 支持以下付款方式：
-
-| 支付方式       | 说明          |
-| ---------- | ----------- |
-| 支付宝 (HK)   | 港币结算，即时到账   |
-| USDT-TRC20 | 加密货币支付      |
-| 对公转账       | 企业客户可申请对公打款 |
-
-在后台「**财务管理 > 充值中心**」中选择对应支付方式完成付款。企业客户如有定制化需求，也可直接联系客服获取专属报价方案。
-
-> 动态住宅代理是按流量消耗扣费的，建议在充值后留意流量余量，避免因余额不足导致服务中断。
-
-
-### 5、查看流量使用情况
+### 4、查看流量使用情况
 
 购买完成后，你可以随时通过 IPWeb 后台对账户资产和使用数据进行可视化管理。
 
@@ -102,7 +87,7 @@ IPWeb 支持以下付款方式：
 ![充值历史记录](https://oss.ipweb.cc/docs/imgs/2026/07/image8.png)
 
 
-## Clash Verge 配置 IPWeb 代理 IP
+## Clash Verge 配置
 
 本教程针对 **Clash Verge** 客户端编写。Clash Verge 是一款基于 Clash Meta 内核的 Windows / macOS 代理工具，与原版 Clash 在界面和操作路径上有明显差异，以下步骤均以 **Clash Verge** 为准。
 
@@ -129,11 +114,10 @@ proxies:
   - name: "proxy1"
     type: socks5
     server: 你的代理服务器地址
-    port: 你的端口号
-    username: 你的用户名
-    password: 你的密码
-
-proxy-groups:[]
+    port: 7778
+    username: "你的用户名"
+    password: "你的密码"
+    udp: true
 ```
 
 > 如果你的 Clash Verge 已有其他配置，可以将上面的 `proxies:` 和 `proxy-groups:` 部分合并到已有配置中，保留原有节点即可。
@@ -211,6 +195,7 @@ rules:
 > - **微信**:（扫码添加）
 >
 > <img src="https://oss.ipweb.cc/docs/imgs/en/2026/07/contact-qcode-email.png" alt="微信二维码" width="160" />
+>
 > - **帮助文档**: [https://docs.ipweb.cc/](https://docs.ipweb.cc/)
 >
 > 更多客户端配置教程（NekoBox、v2rayN 等）请访问 [IPWeb 代理IP与技术文章中心](https://ipweb.cc/blog/)。
