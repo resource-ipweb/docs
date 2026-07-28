@@ -5,7 +5,7 @@ description: Complete guide to configuring IPWeb dynamic residential proxies in 
 ---
 # NekoBox Configuration Guide
 
-***Before using IPWeb proxy services, make sure your network can access international resources normally. If you encounter connection issues, check your local network or contact customer support for assistance.***
+***If you already have a working overseas network environment, follow the "NekoBox Configuration" section. If you do not have one, follow the "Chain Proxy" section first.***
 
 IPWeb provides **70 million+ clean residential IPs** worldwide, covering **220+ countries/regions**, and supports HTTP/HTTPS/SOCKS5 protocols for use cases such as data collection, account management, and ad verification. This guide walks you through the full workflow—from registration and purchase to configuring proxies in **NekoBox (Windows)**.
 
@@ -198,6 +198,98 @@ If you want only specific traffic to use the IPWeb proxy while other traffic con
 | Default → Direct / other node | Route remaining traffic as needed |
 
 Only traffic matching the rules will be sent through the IPWeb proxy; all other traffic keeps its original path.
+
+## Chain Proxy
+
+If your current network environment cannot connect directly to the target country/region proxy, you can configure a chain in NekoBox: first establish a tunnel through a reachable overseas upstream proxy, then connect to the target downstream proxy.
+
+Path:
+
+> **Local machine -> Upstream proxy -> Downstream proxy -> Target website**
+
+### 1. Prepare Two Proxy Nodes
+
+Prepare address, port, username, and password for:
+
+| Role | Purpose | Example |
+| --- | --- | --- |
+| Upstream proxy | First hop that can be reached from current network | `proxy1-hk` |
+| Downstream proxy | Final business egress in target country/region | `proxy2-us` |
+
+### 2. Add Upstream Proxy
+
+Right-click blank area in server list -> **Manual Input**, then fill:
+
+| Field | Value |
+| --- | --- |
+| Type | `Socks` |
+| Name | `proxy1-hk` |
+| Address | upstream server |
+| Port | upstream port |
+| Version | `5` |
+| Username / Password | upstream credentials |
+
+Save it, and test connectivity first.
+
+### 3. Add Downstream Proxy
+
+Again open **Manual Input** and fill downstream node details:
+
+| Field | Value |
+| --- | --- |
+| Type | protocol matching downstream proxy (e.g. `Socks`) |
+| Name | `proxy2-us` |
+| Address | downstream server |
+| Port | downstream port |
+| Version | `5` for SOCKS5 |
+| Username / Password | downstream credentials |
+
+Save and confirm both nodes appear in the server list.
+
+### 4. Create Chain and Set Order
+
+Right-click blank area -> **Manual Input**, then:
+
+1. Set **Type** to **Chain Proxy**
+2. Name it `chain-proxy`
+3. Click **Select Config** and add `proxy1-hk` and `proxy2-us`
+4. Ensure order is `proxy1-hk` on top, `proxy2-us` below
+5. Click **OK**
+
+> In NekoBox, chain traffic goes top-to-bottom and the last node is the final egress. Keep `proxy1-hk -> proxy2-us`.
+
+### 5. Start Chain Proxy
+
+On main screen:
+
+1. Select `chain-proxy`
+2. Right-click -> **Start**
+3. Enable **Tun Mode** and **System Proxy**
+4. Check logs and traffic counters
+
+> Start `chain-proxy` itself, not standalone `proxy1-hk`/`proxy2-us`.
+
+### 6. Verify Final Egress IP
+
+Visit `https://ipinfo.io` and confirm:
+
+- IP equals downstream (`proxy2-us`) IP
+- Country/region matches target line
+- Not your local IP, not upstream egress IP
+
+If yes, chain proxy is successful.
+
+### 7. Troubleshooting
+
+| Issue | What to check |
+| --- | --- |
+| Chain fails to start | Recheck both nodes' server/port/protocol/credentials; test upstream first |
+| Downstream times out | Ensure upstream is reachable; try a lower-latency upstream node |
+| Detected IP is upstream | Check chain list/order; must be `proxy1-hk -> proxy2-us` |
+| Detected IP is local | Ensure `chain-proxy` is started and both Tun/System Proxy are enabled |
+| Slow speed | One extra hop adds latency; optimize upstream distance and stability |
+
+> Button names or positions may vary by NekoBox version. Follow your current UI.
 
 ---
 

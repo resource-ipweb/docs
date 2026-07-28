@@ -5,7 +5,7 @@ description: Complete guide to configuring IPWeb static residential proxies in C
 ---
 # Clash Verge Configuration Guide
 
-***Before using IPWeb proxy services, make sure your network can access international resources normally. If you encounter connection issues, check your local network or contact customer support for assistance.***
+***If you already have a working overseas network environment, follow the "Clash Verge Configuration" section. If you do not have one, follow the "Chain Proxy" section first.***
 
 IPWeb provides **70 million+ clean residential IPs** worldwide across **220+ countries/regions**, supporting HTTP, HTTPS, and SOCKS5 protocols for use cases such as data collection, account operations, and ad verification. This guide walks you through the full workflow—from registration and purchase to configuring proxies in the **Clash Verge** client.
 
@@ -182,6 +182,90 @@ rules:
 ```
 
 With this setup, only requests to the target domain (e.g., `target-website.com`) are sent through the IPWeb proxy via the `proxy1` node; all other traffic follows your existing rules.
+
+## Chain Proxy
+
+If your local network cannot connect directly to overseas proxy servers, you can configure a two-hop chain in Clash Verge: first connect through a reachable overseas proxy as the upstream hop, then connect to your target static residential proxy.
+
+The full path is:
+
+> **Local machine -> Upstream proxy (`proxy1`) -> Downstream proxy (`proxy2`) -> Target website**
+
+In this setup, `proxy1` only establishes stable overseas connectivity, while `proxy2` is the final business egress IP. After setup, IP check tools should show `proxy2`'s location instead of your local IP or `proxy1`'s egress.
+
+### 1. Prepare Two Proxy Nodes
+
+Before setup, prepare these two nodes:
+
+| Node | Purpose | Recommendation |
+| --- | --- | --- |
+| `proxy1` | Upstream proxy for overseas connectivity | Use a stable, low-latency overseas node reachable from your local network |
+| `proxy2` | Final business egress IP | Use the static residential proxy from your required country/region |
+
+### 2. Add Both Nodes to One Configuration File
+
+Create a local YAML file and put both nodes in the same `proxies` list. Replace placeholders with your real values:
+
+```yaml
+proxies:
+  # Hop 1: reachable upstream overseas proxy
+  - name: "proxy1"
+    type: socks5
+    server: your upstream proxy server
+    port: your port
+    username: "your upstream username"
+    password: "your upstream password"
+    udp: true
+
+  # Hop 2: target static residential proxy
+  - name: "proxy2"
+    type: http
+    server: your downstream proxy server
+    port: your port
+    username: "your downstream username"
+    password: "your downstream password"
+```
+
+Create/import the local profile as in the steps above, then activate it with **Use**.
+
+> Notes:
+> - `type` must match the real protocol of each node.
+> - `port` must be your real port value.
+> - If your file already has `proxies:`, append missing nodes to the existing list (do not create a second `proxies:` block).
+
+### 3. Build the Chain in Correct Order
+
+Open **Proxies** in Clash Verge and do the following:
+
+1. Click **Chain Proxy** in the top-right corner.
+2. Click `proxy1` first to add it as hop **1**.
+3. Click `proxy2` next to add it as hop **2**.
+4. Verify the order is `1 proxy1`, `2 proxy2`.
+5. Click **Connect**.
+
+> Do not reverse the order. If you added in the wrong order, remove and re-add.
+
+### 4. Enable System Proxy and Verify Final Egress
+
+Go back to **Home** and make sure **System Proxy** is enabled. Then open `https://ipinfo.io` (or another trusted IP checker) and verify:
+
+- The current IP matches the target IP purchased from IPWeb
+- Country/region, city, and ASN match your purchased line
+- Refreshing does not fall back to your local IP
+
+If the page shows `proxy2`'s target IP, chain proxy is working.
+
+### 5. Troubleshooting
+
+| Issue | What to check |
+| --- | --- |
+| `proxy1` and `proxy2` not shown | Check YAML indentation, save the file, and reactivate the profile |
+| Node has no latency / connection fails | Recheck server, port, protocol, username, and password for both nodes |
+| Still showing local IP | Ensure profile is updated, system proxy is on, and **Connect** was clicked in Chain Proxy mode |
+| Shows upstream IP | Check whether `proxy2` is missing and whether order is `proxy1 -> proxy2` |
+| Connection works but slow | Use a lower-latency, more stable upstream node and avoid extra proxy layers |
+
+> Button names and positions may vary by Clash Verge version. Please follow your current UI.
 
 ---
 

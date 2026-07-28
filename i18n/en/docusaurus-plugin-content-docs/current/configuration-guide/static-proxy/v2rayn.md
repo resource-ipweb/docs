@@ -5,7 +5,7 @@ description: Complete guide to configuring IPWeb static residential proxies in v
 ---
 # v2rayN Configuration Guide
 
-***Before using IPWeb proxy services, make sure your network can access international resources normally. If you encounter connection issues, check your local network or contact customer support for assistance.***
+***If you already have a working overseas network environment, follow the "v2rayN Configuration" section. If you do not have one, follow the "Chain Proxy" section first.***
 
 IPWeb provides **70 million+ clean residential IPs** worldwide across **220+ countries/regions**, supporting HTTP, HTTPS, and SOCKS5 protocols for use cases such as data collection, account operations, and ad verification. This guide walks you through the full workflow—from registration and purchase to configuring proxies in the **v2rayN** client.
 
@@ -176,6 +176,102 @@ If the result is correct (the IP location matches the country/region you purchas
 > 2. Confirm the **启用 Tun (Enable Tun)** toggle is on (green)
 > 3. Confirm the address, port, username, and password match the dashboard exactly (watch for extra spaces)
 > 4. Right-click the node and run **测试延迟 TcPing (Test Delay TcPing)** again to confirm connectivity
+
+## Chain Proxy
+
+If your local network cannot connect directly to the downstream proxy in your target country, configure a chain in v2rayN: connect to a reachable overseas upstream proxy first, then route to the downstream proxy.
+
+Path:
+
+> **Local machine -> Upstream proxy -> Downstream proxy -> Target website**
+
+For example, use a Hong Kong node as upstream and a US node as downstream. The final detected IP should be the downstream node's IP.
+
+### 1. Prepare Two Proxy Nodes
+
+Prepare address, port, username, and password for:
+
+| Role | Purpose | Example Alias |
+| --- | --- | --- |
+| Upstream proxy | First-hop forwarding to overseas network | `proxy1-HK` |
+| Downstream proxy | Final business egress in target country | `proxy2-US` |
+
+### 2. Create Upstream Group
+
+In v2rayN:
+
+1. Click **Subscription Group**
+2. Click **Add**
+3. Set alias to `pre` (or another recognizable name)
+4. Keep other options default and save (no subscription URL needed)
+
+### 3. Add Upstream Proxy to `pre`
+
+1. Select `pre` group
+2. Click **Settings -> Add [HTTP]** (or **Add [SOCKS]** if needed)
+3. Fill alias/address/port/username/password for upstream, e.g. `proxy1-HK`
+4. Save and run latency test
+
+Make sure the upstream proxy itself is reachable before continuing.
+
+### 4. Create Downstream Group and Bind Upstream
+
+Create another group for downstream proxies:
+
+1. Open **Subscription Group -> Add**
+2. Set alias to `land`
+3. In **Upstream Proxy Config Alias**, select `proxy1-HK`
+4. Save the group
+
+> Select the upstream-proxy alias field correctly. In this setup, `proxy1-HK` is upstream and `proxy2-US` is downstream/final egress.
+
+### 5. Add Downstream Proxy to `land`
+
+1. Select `land` group
+2. Click **Settings -> Add [HTTP]** (or SOCKS as needed)
+3. Fill downstream alias/address/port/username/password, e.g. `proxy2-US`
+4. Save
+
+Because `land` is bound to the upstream proxy, downstream connections in this group will route through `proxy1-HK`.
+
+### 6. Activate Downstream and Enable Tun
+
+In `land`, set downstream proxy (`proxy2-US`) as active, then enable **Tun** at the bottom.
+
+Traffic path becomes:
+
+> **Local machine -> `proxy1-HK` -> `proxy2-US` -> Target website**
+
+### 7. Verify Final Egress IP
+
+Open `https://ipinfo.io` and confirm:
+
+- Displayed IP equals downstream (`proxy2-US`) IP
+- Country/region matches purchased target
+- Not local public IP and not upstream egress IP
+
+If all three are true, chain proxy is configured successfully.
+
+### 8. Troubleshooting
+
+**Downstream cannot connect / always times out**
+
+1. Test upstream node separately in `pre`
+2. Verify `land` group is bound to `proxy1-HK`
+3. Recheck downstream address/port/username/password
+4. Restart v2rayN service and test again
+
+**Detected IP is upstream region**
+
+You may have activated upstream node instead of downstream. Switch to `land`, set downstream as active, then re-enable Tun.
+
+**Detected IP is local public IP**
+
+Ensure **Enable Tun** is green, and run v2rayN as administrator if needed. Also check for conflicts from other proxy tools/browser proxy settings.
+
+**Chain works but speed is slow**
+
+One extra hop increases latency. Use a closer, more stable upstream node and avoid stacking unnecessary proxy software.
 
 ---
 
