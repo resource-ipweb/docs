@@ -297,5 +297,5 @@ If the page shows `proxy2`'s target IP, chain proxy is working.
 > <img src="https://oss.ipweb.cc/docs/imgs/en/2026/07/contact-qcode-email.png" alt="WeChat QR code" width="160" />
 > - **Help docs**: [https://docs.ipweb.cc/](https://docs.ipweb.cc/)
 >
-> For more client configuration guides (NekoBox, v2rayN, etc.), visit the [IPWeb Proxy IP & Technical Articles Hub](https://ipweb.cc/blog/).
+> For more client configuration guides (NekoBox, v2rayN, etc.), visit the [IPWeb Proxy Configuration Tutorials](https://docs.ipweb.cc/category/configuration-guide/).
 

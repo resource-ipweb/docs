@@ -296,5 +296,5 @@ proxies:
 >
 > - **帮助文档**: [https://docs.ipweb.cc/](https://docs.ipweb.cc/)
 >
-> 更多客户端配置教程（NekoBox、v2rayN 等）请访问 [IPWeb 代理IP与技术文章中心](https://ipweb.cc/blog/)。
+> 更多客户端配置教程（NekoBox、v2rayN 等）请访问 [IPWeb 代理IP配置教程](https://docs.ipweb.cc/category/configuration-guide/)。
 

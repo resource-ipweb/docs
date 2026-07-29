@@ -308,5 +308,5 @@ One extra hop increases latency. Use a closer, more stable upstream node and avo
 >
 > - **Help docs**: https://docs.ipweb.cc/
 >
-> For more client configuration guides (NekoBox, Clash, etc.), visit the [IPWeb Proxy IP & Technical Articles Hub](https://ipweb.cc/blog/).
+> For more client configuration guides (NekoBox, Clash, etc.), visit the [IPWeb Proxy Configuration Tutorials](https://docs.ipweb.cc/category/configuration-guide/).
 
