@@ -10,8 +10,8 @@ description: 开放平台客户记录 API：查询客户列表，含认证方式
 
 **基础 URL：**
 
-- **HTTP：** `http://user.ipweb.cc/prod-api`
-- **HTTPS：** `https://user.ipweb.cc/prod-api`
+- **HTTP：** `http://api.ipweb.cc/prod-api`
+- **HTTPS：** `https://api.ipweb.cc/prod-api`
 
 **支持格式：** JSON
 
@@ -38,7 +38,7 @@ Token: your_access_token_here
 
 ```
 # 使用curl命令示例
-curl -X GET "http://user.ipweb.cc/prod-api/open/customer/list?pageNum=1&pageSize=10&userName=" -H "token: your-access-token"
+curl -X GET "http://api.ipweb.cc/prod-api/open/customer/list?pageNum=1&pageSize=10&userName=" -H "token: your-access-token"
 ```
 
 ### Token 格式说明

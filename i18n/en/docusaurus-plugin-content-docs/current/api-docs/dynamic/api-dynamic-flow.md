@@ -45,7 +45,7 @@ description: Dynamic traffic API — recharge and usage records, flow reports, r
 ### Request example
 
 ```bash
-GET http://user.ipweb.cc/prod-api/open/dynamic/myRechargeFlowList?pageNum=1&pageSize=10&type=0&account=test@cc.cc&startDate=2025-04-20&endDate=2025-09-20
+GET https://api.ipweb.cc/prod-api/open/dynamic/myRechargeFlowList?pageNum=1&pageSize=10&type=0&account=test@cc.cc&startDate=2025-04-20&endDate=2025-09-20
 ```
 
 ### Response example
@@ -119,7 +119,7 @@ Same as [Get my traffic recharge records](#1-get-my-traffic-recharge-records).
 ### Request example
 
 ```bash
-GET http://user.ipweb.cc/prod-api/open/dynamic/rechargeFlowListForMe?pageNum=1&pageSize=10&type=0&account=admin@cc.cc&startDate=2025-04-20&endDate=2025-09-20
+GET https://api.ipweb.cc/prod-api/open/dynamic/rechargeFlowListForMe?pageNum=1&pageSize=10&type=0&account=admin@cc.cc&startDate=2025-04-20&endDate=2025-09-20
 ```
 
 ### Response example
@@ -183,7 +183,7 @@ GET http://user.ipweb.cc/prod-api/open/dynamic/rechargeFlowListForMe?pageNum=1&p
 ### Request example
 
 ```bash
-curl -X GET "http://user.ipweb.cc/prod-api/open/dynamic/flowReport?customerId=39&pageSize=10&pageNum=1&startDate=2021-12-26&endDate=2025-12-26" -H "token: your-access-token"
+curl -X GET "http://api.ipweb.cc/prod-api/open/dynamic/flowReport?customerId=39&pageSize=10&pageNum=1&startDate=2021-12-26&endDate=2025-12-26" -H "token: your-access-token"
 ```
 
 ### Response example

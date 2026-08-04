@@ -45,7 +45,7 @@ description: 动态流量 API：查询充值与消耗记录、代理客户流量
 ### 请求示例
 
 ```bash
-GET http://user.ipweb.cc/prod-api/open/dynamic/myRechargeFlowList?pageNum=1&pageSize=10&type=0&account=test@cc.cc&startDate=2025-04-20&endDate=2025-09-20
+GET https://api.ipweb.cc/prod-api/open/dynamic/myRechargeFlowList?pageNum=1&pageSize=10&type=0&account=test@cc.cc&startDate=2025-04-20&endDate=2025-09-20
 ```
 
 ### 响应示例
@@ -119,7 +119,7 @@ GET http://user.ipweb.cc/prod-api/open/dynamic/myRechargeFlowList?pageNum=1&page
 ### 请求示例
 
 ```bash
-GET http://user.ipweb.cc/prod-api/open/dynamic/rechargeFlowListForMe?pageNum=1&pageSize=10&type=0&account=admin@cc.cc&startDate=2025-04-20&endDate=2025-09-20
+GET https://api.ipweb.cc/prod-api/open/dynamic/rechargeFlowListForMe?pageNum=1&pageSize=10&type=0&account=admin@cc.cc&startDate=2025-04-20&endDate=2025-09-20
 ```
 
 ### 响应示例
@@ -183,7 +183,7 @@ GET http://user.ipweb.cc/prod-api/open/dynamic/rechargeFlowListForMe?pageNum=1&p
 ### 请求示例
 
 ```bash
-curl -X GET "http://user.ipweb.cc/prod-api/open/dynamic/flowReport?customerId=39&pageSize=10&pageNum=1&startDate=2021-12-26&endDate=2025-12-26" -H "token: your-access-token"
+curl -X GET "http://api.ipweb.cc/prod-api/open/dynamic/flowReport?customerId=39&pageSize=10&pageNum=1&startDate=2021-12-26&endDate=2025-12-26" -H "token: your-access-token"
 ```
 
 ### 响应示例

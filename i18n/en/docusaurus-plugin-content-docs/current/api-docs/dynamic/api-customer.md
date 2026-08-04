@@ -38,7 +38,7 @@ description: Agent customer API — list customers, create accounts, update pass
 #### Request example
 
 ```bash
-curl -X GET "http://user.ipweb.cc/prod-api/open/customer/list?pageNum=1&pageSize=10&userName=" -H "token: your-access-token"
+curl -X GET "http://api.ipweb.cc/prod-api/open/customer/list?pageNum=1&pageSize=10&userName=" -H "token: your-access-token"
 ```
 
 #### Response example

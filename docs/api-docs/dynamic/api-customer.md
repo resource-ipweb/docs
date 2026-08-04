@@ -38,7 +38,7 @@ description: 开放平台客户记录 API：查询客户列表，请求示例、
 #### 请求示例
 
 ```bash
-curl -X GET "http://user.ipweb.cc/prod-api/open/customer/list?pageNum=1&pageSize=10&userName=" -H "token: your-access-token"
+curl -X GET "http://api.ipweb.cc/prod-api/open/customer/list?pageNum=1&pageSize=10&userName=" -H "token: your-access-token"
 ```
 
 #### 响应示例

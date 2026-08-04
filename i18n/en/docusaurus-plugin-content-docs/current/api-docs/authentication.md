@@ -10,8 +10,8 @@ description: Open Platform API authentication — Token auth, request examples, 
 
 **Base URL:**
 
-- **HTTP:** `http://user.ipweb.cc/prod-api`
-- **HTTPS:** `https://user.ipweb.cc/prod-api`
+- **HTTP:** `http://api.ipweb.cc/prod-api`
+- **HTTPS:** `https://api.ipweb.cc/prod-api`
 
 **Supported format:** JSON
 
@@ -38,7 +38,7 @@ Token: your_access_token_here
 
 ```
 # curl example
-curl -X GET "http://user.ipweb.cc/prod-api/open/customer/list?pageNum=1&pageSize=10&userName=" -H "token: your-access-token"
+curl -X GET "http://api.ipweb.cc/prod-api/open/customer/list?pageNum=1&pageSize=10&userName=" -H "token: your-access-token"
 ```
 
 ### Token details

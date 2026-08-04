@@ -503,28 +503,28 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 ### 获取国家列表
 
 ```bash
-curl -X GET "http://user.ipweb.cc/prod-api/v2/static-residential/listCountry" \
+curl -X GET "http://api.ipweb.cc/prod-api/v2/static-residential/listCountry" \
      -H "Token: your_access_token_here"
 ```
 
 ### 获取城市列表
 
 ```bash
-curl -X GET "http://user.ipweb.cc/prod-api/v2/static-residential/listCity?country_code=US" \
+curl -X GET "http://api.ipweb.cc/prod-api/v2/static-residential/listCity?country_code=US" \
      -H "Token: your_access_token_here"
 ```
 
 ### 获取业务名称集合
 
 ```bash
-curl -X GET "http://user.ipweb.cc/prod-api/v2/static-residential/listBusiness" \
+curl -X GET "http://api.ipweb.cc/prod-api/v2/static-residential/listBusiness" \
      -H "Token: your_access_token_here"
 ```
 
 ### 获取空闲 IP 数
 
 ```bash
-curl -X POST "http://user.ipweb.cc/prod-api/v2/static-residential/countIdleIP" \
+curl -X POST "http://api.ipweb.cc/prod-api/v2/static-residential/countIdleIP" \
      -H "Token: your_access_token_here" \
      -H "Content-Type: application/json" \
      -d '{
@@ -538,7 +538,7 @@ curl -X POST "http://user.ipweb.cc/prod-api/v2/static-residential/countIdleIP" \
 ### 创建静态代理 IP
 
 ```bash
-curl -X POST "http://user.ipweb.cc/prod-api/v2/static-residential/newIP" \
+curl -X POST "http://api.ipweb.cc/prod-api/v2/static-residential/newIP" \
      -H "Token: your_access_token_here" \
      -H "Content-Type: application/json" \
      -d '{
@@ -556,7 +556,7 @@ curl -X POST "http://user.ipweb.cc/prod-api/v2/static-residential/newIP" \
 ### 静态代理续费
 
 ```bash
-curl -X POST "http://user.ipweb.cc/prod-api/v2/static-residential/renewIP" \
+curl -X POST "http://api.ipweb.cc/prod-api/v2/static-residential/renewIP" \
      -H "Token: your_access_token_here" \
      -H "Content-Type: application/json" \
      -d '{
@@ -568,7 +568,7 @@ curl -X POST "http://user.ipweb.cc/prod-api/v2/static-residential/renewIP" \
 ### 查询剩余可买 IP 列表
 
 ```bash
-curl -X POST "http://user.ipweb.cc/prod-api/v2/static-residential/availableIpSegments" \
+curl -X POST "http://api.ipweb.cc/prod-api/v2/static-residential/availableIpSegments" \
      -H "Token: your_access_token_here" \
      -H "Content-Type: application/json" \
      -d '{
@@ -581,7 +581,7 @@ curl -X POST "http://user.ipweb.cc/prod-api/v2/static-residential/availableIpSeg
 ### 按 IP 段批量购买
 
 ```bash
-curl -X POST "http://user.ipweb.cc/prod-api/v2/static-residential/batchPurchaseBySegment" \
+curl -X POST "http://api.ipweb.cc/prod-api/v2/static-residential/batchPurchaseBySegment" \
      -H "Token: your_access_token_here" \
      -H "Content-Type: application/json" \
      -d '{
@@ -599,7 +599,7 @@ curl -X POST "http://user.ipweb.cc/prod-api/v2/static-residential/batchPurchaseB
 ### 根据订单 ID 查询分配 IP 列表
 
 ```bash
-curl -X GET "http://user.ipweb.cc/prod-api/v2/static-residential/orderAllots?order_id=SO202401010001" \
+curl -X GET "http://api.ipweb.cc/prod-api/v2/static-residential/orderAllots?order_id=SO202401010001" \
      -H "Token: your_access_token_here"
 ```
 
