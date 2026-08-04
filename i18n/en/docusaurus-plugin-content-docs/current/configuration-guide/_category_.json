@@ -1,0 +1,10 @@
+﻿{
+  "label": "Configuration Tutorials",
+  "key": "configuration-guide",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "Proxy client configuration tutorials",
+    "slug": "/category/configuration-guide"
+  }
+}

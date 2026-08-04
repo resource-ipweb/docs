@@ -1,0 +1,10 @@
+﻿{
+  "label": "动态代理",
+  "key": "config-dynamic-proxy",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "动态代理相关配置教程",
+    "slug": "/category/dynamic-proxy"
+  }
+}

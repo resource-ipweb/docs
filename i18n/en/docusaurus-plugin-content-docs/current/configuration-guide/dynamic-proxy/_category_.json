@@ -1,0 +1,10 @@
+﻿{
+  "label": "Dynamic Proxy",
+  "key": "config-dynamic-proxy",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "Dynamic proxy configuration tutorials",
+    "slug": "/category/dynamic-proxy"
+  }
+}

@@ -1,0 +1,10 @@
+﻿{
+  "label": "Static Proxy",
+  "key": "config-static-proxy",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "Static proxy configuration tutorials",
+    "slug": "/category/static-proxy"
+  }
+}

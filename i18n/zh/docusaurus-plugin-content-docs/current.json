@@ -3,12 +3,44 @@
     "message": "Next",
     "description": "The label for version current"
   },
-  "sidebar.defaultSidebar.category.开放平台": {
+  "sidebar.defaultSidebar.category.open-platform": {
     "message": "开放平台",
     "description": "The label for category '开放平台' in sidebar 'defaultSidebar'"
   },
-  "sidebar.defaultSidebar.category.动态代理": {
+  "sidebar.defaultSidebar.category.open-platform.link.generated-index.description": {
+    "message": "开放平台 API 接口文档",
+    "description": "The generated-index page description for category '开放平台' in sidebar 'defaultSidebar'"
+  },
+  "sidebar.defaultSidebar.category.api-dynamic-proxy": {
     "message": "动态代理",
     "description": "The label for category '动态代理' in sidebar 'defaultSidebar'"
+  },
+  "sidebar.defaultSidebar.category.api-dynamic-proxy.link.generated-index.description": {
+    "message": "动态代理相关 API 接口文档",
+    "description": "The generated-index page description for category '动态代理' in sidebar 'defaultSidebar'"
+  },
+  "sidebar.defaultSidebar.category.configuration-guide": {
+    "message": "配置教程",
+    "description": "The label for category '配置教程' in sidebar 'defaultSidebar'"
+  },
+  "sidebar.defaultSidebar.category.configuration-guide.link.generated-index.description": {
+    "message": "代理客户端配置使用教程",
+    "description": "The generated-index page description for category '配置教程' in sidebar 'defaultSidebar'"
+  },
+  "sidebar.defaultSidebar.category.config-static-proxy": {
+    "message": "静态代理",
+    "description": "The label for category '静态代理' in sidebar 'defaultSidebar'"
+  },
+  "sidebar.defaultSidebar.category.config-static-proxy.link.generated-index.description": {
+    "message": "静态代理相关配置教程",
+    "description": "The generated-index page description for category '静态代理' in sidebar 'defaultSidebar'"
+  },
+  "sidebar.defaultSidebar.category.config-dynamic-proxy": {
+    "message": "动态代理",
+    "description": "The label for category '动态代理' in sidebar 'defaultSidebar'"
+  },
+  "sidebar.defaultSidebar.category.config-dynamic-proxy.link.generated-index.description": {
+    "message": "动态代理相关配置教程",
+    "description": "The generated-index page description for category '动态代理' in sidebar 'defaultSidebar'"
   }
 }
