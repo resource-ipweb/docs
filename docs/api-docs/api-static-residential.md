@@ -11,21 +11,6 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 
 静态 IP V2 API 提供了完整的静态住宅代理 IP 管理功能，包括查询可用资源、创建代理、续费等操作。
 
-### 公共参数：售卖模式 `sell_mode`
-
-以下接口支持可选参数 `sell_mode`，用于指定独享或共享模式：
-
-| 值 | 说明 |
-| --- | --- |
-| `1` | 独享 |
-| `2` | 共享 |
-
-- **未传**时：使用平台 IPNUX 默认配置；若平台未配置，则回落为共享（`2`）。
-- **传入时**：以入参为准，覆盖平台默认；带宽、连接数、UDP 等其它规格仍按平台配置。
-- **查库存与购买应保持一致**：例如先 `countIdleIP(sell_mode=1)` 查独享库存，再 `newIP(sell_mode=1)` 下单。
-
-适用接口：`countIdleIP`、`newIP`、`availableIpSegments`、`batchPurchaseBySegment`。
-
 ---
 
 ## 2. 获取国家列表
