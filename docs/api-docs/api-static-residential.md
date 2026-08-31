@@ -11,6 +11,21 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 
 静态 IP V2 API 提供了完整的静态住宅代理 IP 管理功能，包括查询可用资源、创建代理、续费等操作。
 
+### 公共参数：售卖模式 `sell_mode`
+
+以下接口支持可选参数 `sell_mode`，用于指定独享或共享模式：
+
+| 值 | 说明 |
+| --- | --- |
+| `1` | 独享 |
+| `2` | 共享 |
+
+- **未传**时：使用平台 IPNUX 默认配置；若平台未配置，则回落为共享（`2`）。
+- **传入时**：以入参为准，覆盖平台默认；带宽、连接数、UDP 等其它规格仍按平台配置。
+- **查库存与购买应保持一致**：例如先 `countIdleIP(sell_mode=1)` 查独享库存，再 `newIP(sell_mode=1)` 下单。
+
+适用接口：`countIdleIP`、`newIP`、`availableIpSegments`、`batchPurchaseBySegment`。
+
 ---
 
 ## 2. 获取国家列表
@@ -130,6 +145,7 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 | city_name    | String  | 否   | 城市名称，空表示随机                 | New York |
 | business     | String  | 是   | 业务名称，通过 listBusiness 接口获取 | general  |
 | line_type    | Integer | 是   | IP 质量：1-基础，2-标准，3-高端      | 1        |
+| sell_mode    | Integer | 否   | 售卖模式：1-独享，2-共享；未传用平台默认 | 2        |
 
 #### 请求示例
 
@@ -138,7 +154,8 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
   "country_code": "US",
   "city_name": "New York",
   "business": "YouTube",
-  "line_type": 1
+  "line_type": 1,
+  "sell_mode": 2
 }
 ```
 
@@ -180,8 +197,9 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 | count        | Integer | 是   | 购买的代理数量                       | 1-500                             | 10       |
 | line_type    | Integer | 是   | IP 质量：1-基础，2-标准，3-高端      | 1-3                               | 1        |
 | is_udp       | Integer | 否   | UDP 启用：1 启用，0 不启用           | 0-1，默认 0                       | 0        |
+| sell_mode    | Integer | 否   | 售卖模式：1-独享，2-共享；未传用平台默认 | 1-2                           | 2        |
 | business     | String  | 是   | 业务类型，通过 listBusiness 接口获取 | -                                 | general  |
-| customer_id  | Integer | 否   | 指定下单用户，null 表示自己          | -                                 | null     |
+| customer_id  | String  | 否   | 指定下单用户 ID（雪花 ID，建议 JSON 字符串）；null 表示自己 | -              | null     |
 
 #### 请求示例
 
@@ -193,6 +211,7 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
   "count": 10,
   "line_type": 1,
   "is_udp": 0,
+  "sell_mode": 1,
   "business": "YouTube",
   "customer_id": null
 }
@@ -207,8 +226,8 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 | data.total                | Integer         | 创建的 IP 数量     |
 | data.amount               | Double          | 订单金额           |
 | data.currency             | String          | 计费货币           |
-| data.created_at           | Date            | 创建时间           |
-| data.expired_at           | Date            | 到期时间           |
+| data.created_at           | String          | 创建时间（yyyy-MM-dd HH:mm:ss） |
+| data.expired_at           | String          | 到期时间（yyyy-MM-dd HH:mm:ss） |
 | data.allots               | Array`<Object>` | 分配的代理信息数组 |
 | data.allots[].ip          | String          | 出口 IP 地址       |
 | data.allots[].node_domain | String          | 代理服务器域名     |
@@ -222,15 +241,15 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 
 ```json
 {
-  "code": 200,
-  "msg": "操作成功",
+  "code": "200",
+  "message": "操作成功",
   "data": {
     "order_id": "20240521174348201395",
     "total": 2,
     "amount": 15.5,
     "currency": "USD",
-    "created_at": "2024-12-19T10:30:00Z",
-    "expired_at": "2025-01-18T10:30:00Z",
+    "created_at": "2024-12-19 10:30:00",
+    "expired_at": "2025-01-18 10:30:00",
     "allots": [
       {
         "ip": "192.168.1.100",
@@ -248,6 +267,18 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
       }
     ]
   }
+}
+```
+
+**失败响应（未交付 IP，`allots` 为空）：**
+
+订单流程结束但未分配任何 IP 时，接口返回失败（非 `200`），不会返回空 `allots` 的成功响应。
+
+```json
+{
+  "code": "2007",
+  "message": "购买失败",
+  "data": null
 }
 ```
 
@@ -286,8 +317,8 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 | data.total                | Integer         | 续费的 IP 数量     |
 | data.amount               | Double          | 续费金额           |
 | data.currency             | String          | 计费货币           |
-| data.created_at           | Date            | 续费时间           |
-| data.expired_at           | Date            | 新的到期时间       |
+| data.created_at           | String          | 创建时间（yyyy-MM-dd HH:mm:ss） |
+| data.expired_at           | String          | 新的到期时间（yyyy-MM-dd HH:mm:ss） |
 | data.allots               | Array`<Object>` | 续费的代理信息数组 |
 | data.allots[].ip          | String          | 续费的 IP 地址     |
 | data.allots[].node_domain | String          | 代理服务器域名     |
@@ -301,15 +332,15 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 
 ```json
 {
-  "code": 200,
-  "msg": "操作成功",
+  "code": "200",
+  "message": "操作成功",
   "data": {
     "order_id": "20240521174348201395",
     "total": 1,
     "amount": 7.75,
     "currency": "USD",
-    "created_at": "2024-12-19T10:30:00Z",
-    "expired_at": "2025-02-18T10:30:00Z",
+    "created_at": "2024-12-19 10:30:00",
+    "expired_at": "2025-02-18 10:30:00",
     "allots": [
       {
         "ip": "192.168.1.100",
@@ -338,6 +369,8 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 | country_code | String  | 是   | 国家/地区编码               | 如 HK、US | HK       |
 | city_name    | String  | 否   | 城市名称，空表示随机        | -        | HongKong |
 | line_type    | Integer | 否   | IP 质量：1-基础，2-标准，3-高端 | 1-3，默认 1 | 1        |
+| sell_mode    | Integer | 否   | 售卖模式：1-独享，2-共享；未传用平台默认 | 1-2   | 2        |
+| business     | String  | 否   | 业务类型，通过 listBusiness 获取 | -     | other    |
 
 #### 请求示例
 
@@ -345,7 +378,9 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 {
   "country_code": "HK",
   "city_name": "HongKong",
-  "line_type": 1
+  "line_type": 1,
+  "sell_mode": 2,
+  "business": "other"
 }
 ```
 
@@ -399,6 +434,7 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
 | count                 | Integer         | 是   | 购买总数量（从选定 IP 段中按顺序分配直至达到此数量）                  | 1-500             | 20                     |
 | days                  | Integer         | 是   | 购买天数                                                             | 1、7、15、30、60、90、365 | 30                     |
 | is_udp                 | Integer         | 否   | UDP 启用：1 启用，0 不启用                                           | 0-1，默认 0       | 0                      |
+| sell_mode              | Integer         | 否   | 售卖模式：1-独享，2-共享；未传用平台默认                             | 1-2               | 2                      |
 
 #### 请求示例
 
@@ -411,7 +447,8 @@ description: 静态住宅代理 V2 API：国家与城市查询、创建静态代
   "ip_segment_prefixes": ["66.92.226", "66.93.86"],
   "count": 20,
   "days": 30,
-  "is_udp": 0
+  "is_udp": 0,
+  "sell_mode": 2
 }
 ```
 
@@ -531,7 +568,8 @@ curl -X POST "http://api.ipweb.cc/prod-api/v2/static-residential/countIdleIP" \
        "country_code": "US",
        "city_name": "New York",
        "business": "YouTube",
-       "line_type": 1
+       "line_type": 1,
+       "sell_mode": 2
      }'
 ```
 
@@ -548,6 +586,7 @@ curl -X POST "http://api.ipweb.cc/prod-api/v2/static-residential/newIP" \
        "count": 1,
        "line_type": 1,
        "is_udp": 0,
+       "sell_mode": 1,
        "business": "YouTube",
        "customer_id": null
      }'
@@ -574,7 +613,9 @@ curl -X POST "http://api.ipweb.cc/prod-api/v2/static-residential/availableIpSegm
      -d '{
        "country_code": "HK",
        "city_name": "HongKong",
-       "line_type": 1
+       "line_type": 1,
+       "sell_mode": 2,
+       "business": "other"
      }'
 ```
 
@@ -592,7 +633,8 @@ curl -X POST "http://api.ipweb.cc/prod-api/v2/static-residential/batchPurchaseBy
        "ip_segment_prefixes": ["66.92.226", "66.93.86"],
        "count": 20,
        "days": 30,
-       "is_udp": 0
+       "is_udp": 0,
+       "sell_mode": 2
      }'
 ```
 
@@ -615,24 +657,55 @@ curl -X GET "http://api.ipweb.cc/prod-api/v2/static-residential/orderAllots?orde
 
 | 错误码 | 说明                                   | 解决方案                                            |
 | ------ | -------------------------------------- | --------------------------------------------------- |
-| 2000   | 静态 IP 不属于客户账号下               | 检查 IP 是否属于当前账户                            |
-| 2001   | 静态 IP 库存不足                       | 当前选择的地区暂无可用 IP，请选择其他地区或稍后重试 |
-| 2002   | 静态 IP 已被占用                       | 选择其他可用的 IP 地址                              |
-| 2003   | 静态 IP 配置失败                       | 检查配置参数，稍后重试                              |
+| 2001   | 参数无效（含 line_type、sell_mode 等） | 检查请求参数是否符合限制                            |
 | 2004   | 静态 IP 续费失败                       | 检查账户余额和续费参数                              |
-| 2005   | 静态 IP 已过期                         | 重新购买或续费 IP                                   |
-| 2006   | 静态 IP 不存在                         | 指定的 IP 地址不存在或已被释放                      |
-| 2100   | 可选天数: 1、7、15、30、60、90、365 天 | 天数参数必须为：1、7、15、30、60、90、365 中的一个  |
-| 2101   | 当前 IP 仅支持: 30、60、90、365 天     | 当前 IP 的续费天数仅支持：30、60、90、365 天        |
+| 2006   | 静态 IP / 订单不存在                   | 指定的 IP 或订单不存在                              |
+| 2007   | 购买失败（未交付 IP）                  | newIP 返回空 allots；检查库存或联系客服             |
+| 2008   | 无权限访问此接口                       | 确认账号已开通 API 白名单                           |
+| 2009   | 非代理商用户访问                       | 段购等接口需代理商身份                              |
+| 2010   | 非法的 customerId                      | 代客下单时 customer_id 须为下级用户                 |
+| 2099   | 业务操作失败                           | 如余额不足等，见 message 详情                       |
+| 2100   | days 参数无效                          | 天数须为：1、7、15、30、60、90、365 之一            |
+| 2101   | 当前 IP 续费天数受限                   | 当前 IP 的续费天数仅支持：30、60、90、365 天        |
 
 ## 13. 错误响应示例
+
+#### sell_mode 参数错误示例
+
+```json
+{
+  "code": "2001",
+  "message": "sell_mode参数无效",
+  "data": null
+}
+```
+
+#### newIP 购买失败（未交付 IP）示例
+
+```json
+{
+  "code": "2007",
+  "message": "购买失败",
+  "data": null
+}
+```
 
 #### 静态 IP 库存不足示例
 
 ```json
 {
-  "code": 2001,
-  "msg": "静态IP库存不足",
+  "code": "2001",
+  "message": "所选IP段库存不足",
+  "data": null
+}
+```
+
+#### 无权限访问示例
+
+```json
+{
+  "code": "2008",
+  "message": "无权限访问此接口",
   "data": null
 }
 ```
@@ -641,8 +714,8 @@ curl -X GET "http://api.ipweb.cc/prod-api/v2/static-residential/orderAllots?orde
 
 ```json
 {
-  "code": 2006,
-  "msg": "静态IP不存在",
+  "code": "2006",
+  "message": "IP不存在或不属于当前用户",
   "data": null
 }
 ```
@@ -651,8 +724,8 @@ curl -X GET "http://api.ipweb.cc/prod-api/v2/static-residential/orderAllots?orde
 
 ```json
 {
-  "code": 2100,
-  "msg": "可选天数: 1、7、15、30、60、90、365天",
+  "code": "2100",
+  "message": "days参数无效",
   "data": null
 }
 ```
@@ -669,6 +742,6 @@ curl -X GET "http://api.ipweb.cc/prod-api/v2/static-residential/orderAllots?orde
 
 ---
 
-**© 2024 静态 IP V2 API 接口文档 - 版本 1.10.0**
+**© 2024 静态 IP V2 API 接口文档 - 版本 1.12.0**
 
-**最后更新时间：** 2026 年 2 月 25 日
+**最后更新时间：** 2026 年 8 月 31 日
