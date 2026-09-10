@@ -1,12 +1,12 @@
 ---
 sidebar_position: 2
 slug: /user-guide
-description: IPWEB proxy user guide — top up traffic, get dynamic residential proxies, parse proxy strings, verify connectivity, custom account rules, and choose proxy gateways.
+description: IPWeb dynamic proxy user guide — top up traffic, get dynamic residential proxies, parse proxy strings, verify connectivity, custom account rules, and choose proxy gateways.
 ---
 
 import IpwebLoginLink from '@site/src/components/IpwebLoginLink';
 
-# IPWEB Proxy User Guide
+# IPWeb Dynamic Proxy User Guide
 
 ## 1. How to get dynamic residential proxies?
 
