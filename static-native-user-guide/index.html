@@ -1,0 +1,421 @@
+<!doctype html><html lang=zh-Hans dir=ltr class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-static-native-user-guide" data-has-hydrated=false><head><meta charset=UTF-8><meta name=generator content="Docusaurus v3.10.2"><title data-rh=true>IPWeb 静态原生代理使用指南 | IPWeb API Docs</title><meta data-rh=true name=viewport content="width=device-width, initial-scale=1.0"/><meta data-rh=true name=twitter:card content=summary_large_image /><meta data-rh=true property=og:image content=https://docs.ipweb.cc/img/docusaurus-social-card.jpg /><meta data-rh=true name=twitter:image content=https://docs.ipweb.cc/img/docusaurus-social-card.jpg /><meta data-rh=true property=og:url content=https://docs.ipweb.cc/static-native-user-guide/ /><meta data-rh=true property=og:locale content=zh_Hans /><meta data-rh=true property=og:locale:alternate content=en /><meta data-rh=true name=docusaurus_locale content=zh /><meta data-rh=true name=docsearch:language content=zh /><meta data-rh=true name=robots content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"/><meta data-rh=true name=docusaurus_version content=current /><meta data-rh=true name=docusaurus_tag content=docs-default-current /><meta data-rh=true name=docsearch:version content=current /><meta data-rh=true name=docsearch:docusaurus_tag content=docs-default-current /><meta data-rh=true property=og:title content="IPWeb 静态原生代理使用指南 | IPWeb API Docs"/><meta data-rh=true name=description content="IPWeb 静态原生代理使用指南：购买独享/共享静态原生代理（自定义与非自定义）、支付订单，以及查看与导出已购代理。"/><meta data-rh=true property=og:description content="IPWeb 静态原生代理使用指南：购买独享/共享静态原生代理（自定义与非自定义）、支付订单，以及查看与导出已购代理。"/><link data-rh=true rel=icon href=/img/favicon.ico /><link data-rh=true rel=canonical href=https://docs.ipweb.cc/static-native-user-guide/ /><link data-rh=true rel=alternate href=https://docs.ipweb.cc/static-native-user-guide/ hreflang=zh-Hans /><link data-rh=true rel=alternate href=https://docs.ipweb.cc/en/static-native-user-guide/ hreflang=en /><link data-rh=true rel=alternate href=https://docs.ipweb.cc/static-native-user-guide/ hreflang=x-default /><script data-rh=true type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","item":"https://docs.ipweb.cc/static-native-user-guide","name":"IPWeb 静态原生代理使用指南","position":1}]}</script><link rel=stylesheet href=/assets/css/styles.cb2497ec.css /><script src=/assets/js/runtime~main.58b4f075.js defer></script><script src=/assets/js/main.80803d65.js defer></script></head><body><svg style="display: none;"><defs>
+<symbol id=theme-svg-external-link viewBox="0 0 24 24"><path fill=currentColor d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme-88a")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||(window.matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light")),document.documentElement.setAttribute("data-theme-choice",t||"system")}(),function(){try{for(var[t,e]of new URLSearchParams(window.location.search).entries())if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id=__docusaurus><link rel=preload as=image href=/img/logo.svg /><div role=region aria-label=跳到主要内容><a class=skipToContent_fXgn href=#__docusaurus_skipToContent_fallback>跳到主要内容</a></div><nav aria-label=主导航 class="theme-layout-navbar navbar navbar--fixed-top"><div class=navbar__inner><div class="theme-layout-navbar-left navbar__items"><button aria-label=切换导航栏 aria-expanded=false class="navbar__toggle clean-btn" type=button><svg width=30 height=30 viewBox="0 0 30 30" aria-hidden=true><path stroke=currentColor stroke-linecap=round stroke-miterlimit=10 stroke-width=2 d="M4 7h22M4 15h22M4 23h22"/></svg></button><a class=navbar__brand href=/><div class=navbar__logo><img src=/img/logo.svg alt="IPWeb API Docs Logo" class="themedComponent_mlkZ themedComponent--light_NVdE"/><img src=/img/logo.svg alt="IPWeb API Docs Logo" class="themedComponent_mlkZ themedComponent--dark_xIcU"/></div><b class="navbar__title text--truncate">IPWeb API Docs</b></a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><div class="navbar__item dropdown dropdown--hoverable dropdown--right"><a href=# aria-haspopup=true aria-expanded=false role=button class=navbar__link><svg viewBox="0 0 24 24" width=20 height=20 aria-hidden=true class=iconLanguage_nlXk><path fill=currentColor d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/></svg>中文</a><ul class=dropdown__menu><li><a href=/static-native-user-guide/ target=_self rel="noopener noreferrer" class="dropdown__link dropdown__link--active" lang=zh-Hans>中文</a><li><a href=/en/static-native-user-guide/ target=_self rel="noopener noreferrer" class=dropdown__link lang=en>English</a></ul></div><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type=button disabled title=跟随系统 aria-label=切换浅色/暗黑模式（当前为跟随系统）><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill=currentColor d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"/></svg><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill=currentColor d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"/></svg><svg viewBox="0 0 24 24" width=24 height=24 aria-hidden=true class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill=currentColor d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"/></svg></button></div><div class=navbarSearchContainer_Bca1></div></div></div><div role=presentation class=navbar-sidebar__backdrop></div></nav><div id=__docusaurus_skipToContent_fallback class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class=docsWrapper_hBAB><button aria-label=回到顶部 class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type=button></button><div class=docRoot_UBD9><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class=sidebarViewport_aRkj><div class=sidebar_njMd><nav aria-label=文档侧边栏 class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/><span class=linkLabel_WmDU>快速开始</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class=menu__link href=/user-guide/><span class=linkLabel_WmDU>IPWeb 动态代理使用指南</span></a><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link menu__link--active" aria-current=page href=/static-native-user-guide/><span class=linkLabel_WmDU>IPWeb 静态原生代理使用指南</span></a><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class=menu__list-item-collapsible><a class="categoryLink_byQd menu__link menu__link--sublist" href=/category/open-platform/><span class=categoryLinkLabel_W154>开放平台</span></a><button aria-label="展开侧边栏分类 '开放平台'" aria-expanded=false type=button class="clean-btn menu__caret"></button></div><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class=menu__list-item-collapsible><a class="categoryLink_byQd menu__link menu__link--sublist" href=/category/configuration-guide/><span class=categoryLinkLabel_W154>配置教程</span></a><button aria-label="展开侧边栏分类 '配置教程'" aria-expanded=false type=button class="clean-btn menu__caret"></button></div></ul></nav><button type=button title=收起侧边栏 aria-label=收起侧边栏 class="button button--secondary button--outline collapseSidebarButton_PEFL"><svg width=20 height=20 aria-hidden=true class=collapseSidebarButtonIcon_kv0_><g fill=#7a7a7a><path d="M9.992 10.023c0 .2-.062.399-.172.547l-4.996 7.492a.982.982 0 01-.828.454H1c-.55 0-1-.453-1-1 0-.2.059-.403.168-.551l4.629-6.942L.168 3.078A.939.939 0 010 2.528c0-.548.45-.997 1-.997h2.996c.352 0 .649.18.828.45L9.82 9.472c.11.148.172.347.172.55zm0 0"/><path d="M19.98 10.023c0 .2-.058.399-.168.547l-4.996 7.492a.987.987 0 01-.828.454h-3c-.547 0-.996-.453-.996-1 0-.2.059-.403.168-.551l4.625-6.942-4.625-6.945a.939.939 0 01-.168-.55 1 1 0 01.996-.997h3c.348 0 .649.18.828.45l4.996 7.492c.11.148.168.347.168.55zm0 0"/></g></svg></button></div></div></aside><main class=docMainContainer_TBSr><div class="container padding-top--md padding-bottom--lg"><div class=row><div class="col docItemCol_VOVn"><div class=docItemContainer_Djhp><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label=页面路径><ul class=breadcrumbs><li class=breadcrumbs__item><a aria-label=主页面 class=breadcrumbs__link href=/><svg viewBox="0 0 24 24" class=breadcrumbHomeIcon_YNFT><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill=currentColor /></svg></a><li class="breadcrumbs__item breadcrumbs__item--active"><span class=breadcrumbs__link>IPWeb 静态原生代理使用指南</span></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type=button class="clean-btn tocCollapsibleButton_TO0P">本页总览</button></div><div class="theme-doc-markdown markdown"><header><h1>IPWeb 静态原生代理使用指南</h1></header>
+<p>本文介绍 IPWeb <strong>静态原生代理</strong>的购买与查看流程。购买方式分为 <strong>独享</strong> 和 <strong>共享</strong> 两种，支持 <strong>自定义购买</strong> 与 <strong>非自定义购买</strong> 两种配置方式。</p>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=一如何购买代理>一、如何购买代理<a href=#一如何购买代理 class=hash-link aria-label=一、如何购买代理的直接链接 title=一、如何购买代理的直接链接 translate=no>​</a></h2>
+<p>登录 IPWeb 用户后台后，在左侧导航栏进入：</p>
+<p><strong>代理产品 > 静态原生代理 > 购买代理</strong></p>
+<p>进入购买页面后，可根据使用需求选择 <strong>独享</strong> 或 <strong>共享</strong>，并决定是否开启 <strong>自定义购买</strong>。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=购买独享代理>购买独享代理<a href=#购买独享代理 class=hash-link aria-label=购买独享代理的直接链接 title=购买独享代理的直接链接 translate=no>​</a></h3>
+<p>独享代理由当前账户独立使用。购买时可选择开启或关闭「自定义购买」。</p>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=自定义购买>自定义购买<a href=#自定义购买 class=hash-link aria-label=自定义购买的直接链接 title=自定义购买的直接链接 translate=no>​</a></h4>
+<p>在「购买代理」页面选择 <strong>独享</strong>，并开启 <strong>「自定义购买」</strong>。</p>
+<p><img decoding=async loading=lazy src=https://oss.ipweb.cc/docs/imgs/2026/09/static-native-buy-proxy-custom-dedicated-steps.png alt=IPWeb静态原生代理自定义购买页面-独享模式 class=img_ev3q /></p>
+<p>开启后，可以根据需求配置以下参数。</p>
+<h5 class="anchor anchorTargetStickyNavbar_Vzrq" id=步骤-1选择国家地区>步骤 1：选择国家/地区<a href=#步骤-1选择国家地区 class=hash-link aria-label="步骤 1：选择国家/地区的直接链接" title="步骤 1：选择国家/地区的直接链接" translate=no>​</a></h5>
+<p>点击 <strong>「国家/地区」</strong>，选择需要的代理出口位置。</p>
+<p>页面支持按区域选择国家，并可进一步选择城市。例如选择美国后，可继续选择随机城市或指定城市。</p>
+<p><img decoding=async loading=lazy src=https://oss.ipweb.cc/docs/imgs/2026/09/static-native-buy-proxy-custom-dedicated-location.png alt=IPWeb静态原生代理自定义购买页面-独享模式-国家地区选择 class=img_ev3q /></p>
+<blockquote>
+<p><strong>说明：</strong> 可选国家、地区和城市以后台当前可用资源为准。选择「随机」时，系统会从对应国家或地区的可用资源中分配代理 IP。</p>
+</blockquote>
+<h5 class="anchor anchorTargetStickyNavbar_Vzrq" id=步骤-2选择业务用途可选>步骤 2：选择业务用途（可选）<a href=#步骤-2选择业务用途可选 class=hash-link aria-label="步骤 2：选择业务用途（可选）的直接链接" title="步骤 2：选择业务用途（可选）的直接链接" translate=no>​</a></h5>
+<p>如对线路使用场景有特定需求，可在 <strong>「业务用途」</strong> 中选择对应业务类型。</p>
+<p>后台会展示可选的业务标签，用于匹配经过相应业务范围筛选的 IP 资源。</p>
+<p><img decoding=async loading=lazy src=https://oss.ipweb.cc/docs/imgs/2026/09/static-native-buy-proxy-custom-dedicated-use.png alt=IPWeb静态原生代理自定义购买页面-独享模式-业务用途选择 class=img_ev3q /></p>
+<p>如果没有特定业务需求，可不选择该项。</p>
+<h5 class="anchor anchorTargetStickyNavbar_Vzrq" id=步骤-3设置-udp>步骤 3：设置 UDP<a href=#步骤-3设置-udp class=hash-link aria-label="步骤 3：设置 UDP的直接链接" title="步骤 3：设置 UDP的直接链接" translate=no>​</a></h5>
+<p>根据实际使用需求选择是否开启 <strong>UDP</strong>：</p>
+<ul>
+<li class="">
+<p><strong>关闭</strong>：不启用 UDP；</p>
+</li>
+<li class="">
+<p><strong>开启</strong>：启用 UDP 支持。</p>
+</li>
+</ul>
+<p>是否需要 UDP 取决于实际使用的软件、协议及业务场景。</p>
+<h5 class="anchor anchorTargetStickyNavbar_Vzrq" id=步骤-4选择带宽>步骤 4：选择带宽<a href=#步骤-4选择带宽 class=hash-link aria-label="步骤 4：选择带宽的直接链接" title="步骤 4：选择带宽的直接链接" translate=no>​</a></h5>
+<p>选择当前代理实例的带宽规格。</p>
+<p>页面提供的带宽选项包括：</p>
+<ul>
+<li class="">
+<p>5 Mbps</p>
+</li>
+<li class="">
+<p>10 Mbps</p>
+</li>
+<li class="">
+<p>20 Mbps</p>
+</li>
+<li class="">
+<p>50 Mbps</p>
+</li>
+</ul>
+<p>也可通过右侧数量控件调整带宽值，具体可选范围以后台页面为准。</p>
+<blockquote>
+<p><strong>说明：</strong> 带宽表示当前代理连接可使用的网络传输能力。购买前应结合实际并发量和传输需求选择合适规格。</p>
+</blockquote>
+<h5 class="anchor anchorTargetStickyNavbar_Vzrq" id=步骤-5选择连接数qps>步骤 5：选择连接数（QPS）<a href=#步骤-5选择连接数qps class=hash-link aria-label="步骤 5：选择连接数（QPS）的直接链接" title="步骤 5：选择连接数（QPS）的直接链接" translate=no>​</a></h5>
+<p>根据并发请求需求选择 <strong>连接数（QPS）</strong>。</p>
+<p>页面提供的规格包括：</p>
+<ul>
+<li class="">
+<p>500</p>
+</li>
+<li class="">
+<p>1000</p>
+</li>
+<li class="">
+<p>2000</p>
+</li>
+<li class="">
+<p>3000</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>说明：</strong> QPS（Queries Per Second）用于表示每秒可处理的请求数量。实际使用时应根据请求频率和业务并发需求选择相应规格。</p>
+</blockquote>
+<h5 class="anchor anchorTargetStickyNavbar_Vzrq" id=步骤-6选择-ip-购买时长>步骤 6：选择 IP 购买时长<a href=#步骤-6选择-ip-购买时长 class=hash-link aria-label="步骤 6：选择 IP 购买时长的直接链接" title="步骤 6：选择 IP 购买时长的直接链接" translate=no>​</a></h5>
+<p>选择代理 IP 的服务周期。</p>
+<p>当前页面提供：</p>
+<ul>
+<li class="">
+<p>7 天</p>
+</li>
+<li class="">
+<p>15 天</p>
+</li>
+<li class="">
+<p>30 天</p>
+</li>
+<li class="">
+<p>60 天</p>
+</li>
+<li class="">
+<p>90 天</p>
+</li>
+<li class="">
+<p>180 天</p>
+</li>
+<li class="">
+<p>365 天</p>
+</li>
+</ul>
+<h5 class="anchor anchorTargetStickyNavbar_Vzrq" id=步骤-7设置-ip-购买数量>步骤 7：设置 IP 购买数量<a href=#步骤-7设置-ip-购买数量 class=hash-link aria-label="步骤 7：设置 IP 购买数量的直接链接" title="步骤 7：设置 IP 购买数量的直接链接" translate=no>​</a></h5>
+<p>在右侧 <strong>「订单详情」</strong> 中设置需要购买的 IP 数量。</p>
+<p>系统会根据当前选择的：</p>
+<ul>
+<li class="">
+<p>独享级别</p>
+</li>
+<li class="">
+<p>国家/地区</p>
+</li>
+<li class="">
+<p>带宽</p>
+</li>
+<li class="">
+<p>QPS</p>
+</li>
+<li class="">
+<p>购买时长</p>
+</li>
+<li class="">
+<p>UDP 状态</p>
+</li>
+<li class="">
+<p>IP 数量</p>
+</li>
+</ul>
+<p>自动计算当前应付金额。</p>
+<p>确认订单参数无误并阅读同意《服务协议》和《隐私政策》后，点击 <strong>「确认下单」</strong>。</p>
+<blockquote>
+<p>如暂时不需要立即结算，也可选择 <strong>「加入购物车」</strong>。</p>
+</blockquote>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=非自定义购买>非自定义购买<a href=#非自定义购买 class=hash-link aria-label=非自定义购买的直接链接 title=非自定义购买的直接链接 translate=no>​</a></h4>
+<p>如果不需要逐项调整带宽、QPS、UDP 等参数，可关闭右上角的 <strong>「自定义购买」</strong>。</p>
+<p>关闭后，页面会切换为预设规格购买模式。</p>
+<p><img decoding=async loading=lazy src=https://oss.ipweb.cc/docs/imgs/2026/09/static-native-buy-proxy-dedicated-steps.png alt=IPWeb静态原生代理非自定义购买页面-独享模式 class=img_ev3q /></p>
+<h5 class="anchor anchorTargetStickyNavbar_Vzrq" id=步骤-1选择地区>步骤 1：选择地区<a href=#步骤-1选择地区 class=hash-link aria-label="步骤 1：选择地区的直接链接" title="步骤 1：选择地区的直接链接" translate=no>​</a></h5>
+<p>在 <strong>「地区列表」</strong> 中选择需要的国家/地区。</p>
+<p>页面按洲展示可选地区，例如：</p>
+<ul>
+<li class="">
+<p>美洲</p>
+</li>
+<li class="">
+<p>亚太</p>
+</li>
+<li class="">
+<p>欧洲</p>
+</li>
+<li class="">
+<p>非洲</p>
+</li>
+</ul>
+<p>展开对应区域后，选择需要的国家。</p>
+<h5 class="anchor anchorTargetStickyNavbar_Vzrq" id=步骤-2选择-ip-购买时长>步骤 2：选择 IP 购买时长<a href=#步骤-2选择-ip-购买时长 class=hash-link aria-label="步骤 2：选择 IP 购买时长的直接链接" title="步骤 2：选择 IP 购买时长的直接链接" translate=no>​</a></h5>
+<p>选择代理的服务周期，例如：</p>
+<ul>
+<li class="">
+<p>7 天</p>
+</li>
+<li class="">
+<p>15 天</p>
+</li>
+<li class="">
+<p>30 天</p>
+</li>
+<li class="">
+<p>60 天</p>
+</li>
+<li class="">
+<p>90 天</p>
+</li>
+<li class="">
+<p>180 天</p>
+</li>
+<li class="">
+<p>365 天</p>
+</li>
+</ul>
+<h5 class="anchor anchorTargetStickyNavbar_Vzrq" id=步骤-3确认预设规格>步骤 3：确认预设规格<a href=#步骤-3确认预设规格 class=hash-link aria-label="步骤 3：确认预设规格的直接链接" title="步骤 3：确认预设规格的直接链接" translate=no>​</a></h5>
+<p>非自定义购买模式下，带宽、连接数（QPS）和 UDP 等参数由当前套餐预设。</p>
+<p>页面会直接显示对应规格，例如：</p>
+<ul>
+<li class="">
+<p>连接数</p>
+</li>
+<li class="">
+<p>带宽</p>
+</li>
+<li class="">
+<p>UDP 状态</p>
+</li>
+</ul>
+<p>购买前请确认页面显示的套餐规格是否符合使用需求。</p>
+<h5 class="anchor anchorTargetStickyNavbar_Vzrq" id=步骤-4设置-ip-数量并下单>步骤 4：设置 IP 数量并下单<a href=#步骤-4设置-ip-数量并下单 class=hash-link aria-label="步骤 4：设置 IP 数量并下单的直接链接" title="步骤 4：设置 IP 数量并下单的直接链接" translate=no>​</a></h5>
+<p>在右侧 <strong>「订单详情」</strong> 中设置购买数量，确认国家/地区、服务周期、规格和应付金额后，点击 <strong>「确认下单」</strong>。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=购买共享代理>购买共享代理<a href=#购买共享代理 class=hash-link aria-label=购买共享代理的直接链接 title=购买共享代理的直接链接 translate=no>​</a></h3>
+<p>共享代理使用共享资源池。购买流程与独享代理基本一致，也可选择 <strong>自定义购买</strong> 或 <strong>非自定义购买</strong>。</p>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=自定义购买-1>自定义购买<a href=#自定义购买-1 class=hash-link aria-label=自定义购买的直接链接 title=自定义购买的直接链接 translate=no>​</a></h4>
+<p>在「购买代理」页面选择 <strong>共享</strong>，并开启 <strong>「自定义购买」</strong>。</p>
+<p>依次设置：</p>
+<ol>
+<li class="">
+<p><strong>国家/地区</strong></p>
+</li>
+<li class="">
+<p><strong>业务用途（可选）</strong></p>
+</li>
+<li class="">
+<p><strong>UDP</strong></p>
+</li>
+<li class="">
+<p><strong>带宽</strong></p>
+</li>
+<li class="">
+<p><strong>连接数（QPS）</strong></p>
+</li>
+<li class="">
+<p><strong>IP 购买时长</strong></p>
+</li>
+<li class="">
+<p><strong>IP 购买数量</strong></p>
+</li>
+</ol>
+<p><img decoding=async loading=lazy src=https://oss.ipweb.cc/docs/imgs/2026/09/static-native-buy-proxy-custom-shared-steps.png alt=IPWeb静态原生代理自定义购买页面-共享模式 class=img_ev3q /></p>
+<p>设置完成后，在右侧「订单详情」确认：</p>
+<ul>
+<li class="">
+<p>独享级别：共享</p>
+</li>
+<li class="">
+<p>国家/地区</p>
+</li>
+<li class="">
+<p>带宽</p>
+</li>
+<li class="">
+<p>连接数（QPS）</p>
+</li>
+<li class="">
+<p>购买时长</p>
+</li>
+<li class="">
+<p>UDP 状态</p>
+</li>
+<li class="">
+<p>IP 数量</p>
+</li>
+<li class="">
+<p>当前应付金额</p>
+</li>
+</ul>
+<p>确认无误后点击 <strong>「确认下单」</strong>。</p>
+<h4 class="anchor anchorTargetStickyNavbar_Vzrq" id=非自定义购买-1>非自定义购买<a href=#非自定义购买-1 class=hash-link aria-label=非自定义购买的直接链接 title=非自定义购买的直接链接 translate=no>​</a></h4>
+<p>选择 <strong>共享</strong> 后，关闭 <strong>「自定义购买」</strong>，即可使用预设规格购买。</p>
+<p>操作步骤如下：</p>
+<ol>
+<li class="">
+<p>在 <strong>「地区列表」</strong> 中选择国家/地区；</p>
+</li>
+<li class="">
+<p>选择 <strong>IP 购买时长</strong>；</p>
+</li>
+<li class="">
+<p>查看页面预设的连接数、带宽和 UDP 状态；</p>
+</li>
+<li class="">
+<p>在右侧设置 <strong>IP 购买数量</strong>；</p>
+</li>
+<li class="">
+<p>确认订单详情和应付金额；</p>
+</li>
+<li class="">
+<p>点击 <strong>「确认下单」</strong>。</p>
+</li>
+</ol>
+<p><img decoding=async loading=lazy src=https://oss.ipweb.cc/docs/imgs/2026/09/static-native-buy-proxy-shared-steps.png alt=IPWeb静态原生代理非自定义购买页面-共享模式 class=img_ev3q /></p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=支付订单>支付订单<a href=#支付订单 class=hash-link aria-label=支付订单的直接链接 title=支付订单的直接链接 translate=no>​</a></h3>
+<p>点击「确认下单」后，系统会生成待支付订单并进入支付页面。</p>
+<p><img decoding=async loading=lazy src=https://oss.ipweb.cc/docs/imgs/2026/09/static-native-buy-proxy-order.png alt=IPWeb静态原生代理支付订单页面 class=img_ev3q /></p>
+<p>页面会显示订单编号、产品类型、创建时间和应付金额。</p>
+<p>当前页面提供的支付方式包括：</p>
+<ul>
+<li class="">
+<p>钱包余额</p>
+</li>
+<li class="">
+<p>银联</p>
+</li>
+<li class="">
+<p>支付宝（香港）</p>
+</li>
+<li class="">
+<p>支付宝</p>
+</li>
+<li class="">
+<p>信用卡支付</p>
+</li>
+<li class="">
+<p>PayPal</p>
+</li>
+<li class="">
+<p>加密货币</p>
+</li>
+</ul>
+<p>选择支付方式后，点击 <strong>「立即支付」</strong>，按照页面提示完成付款。</p>
+<p>如不继续购买，可点击 <strong>「取消订单」</strong>。</p>
+<blockquote>
+<p><strong>订单提示：</strong></p>
+<ul>
+<li class="">
+<p>待支付订单生成后，库存会临时锁定 <strong>15 分钟</strong>，建议在锁定时间内完成支付。</p>
+</li>
+<li class="">
+<p>页面支持 <strong>「启用自动续费（余额扣费）」</strong>。如开启自动续费，请确保账户余额充足。</p>
+</li>
+<li class="">
+<p>订单确认后，线路生成通常可能需要 <strong>3–5 分钟</strong>，请等待系统完成资源配置。</p>
+</li>
+</ul>
+</blockquote>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id=二如何查看已购买的代理>二、如何查看已购买的代理<a href=#二如何查看已购买的代理 class=hash-link aria-label=二、如何查看已购买的代理的直接链接 title=二、如何查看已购买的代理的直接链接 translate=no>​</a></h2>
+<p>静态原生代理购买并开通后，可进入：</p>
+<p><strong>代理产品 > 静态原生代理 > 我的 IP</strong></p>
+<p>查看当前账户下已购买的静态原生代理资源。</p>
+<p><img decoding=async loading=lazy src=https://oss.ipweb.cc/docs/imgs/2026/09/static-native-my-ips.png alt=IPWeb静态原生代理已购IP查看页面 class=img_ev3q /></p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=查看代理资源状态>查看代理资源状态<a href=#查看代理资源状态 class=hash-link aria-label=查看代理资源状态的直接链接 title=查看代理资源状态的直接链接 translate=no>​</a></h3>
+<p>页面顶部会汇总当前账户下的代理 IP 状态，包括：</p>
+<ul>
+<li class="">
+<p><strong>全部</strong></p>
+</li>
+<li class="">
+<p><strong>可用</strong></p>
+</li>
+<li class="">
+<p><strong>已停用</strong></p>
+</li>
+<li class="">
+<p><strong>即将到期</strong></p>
+</li>
+<li class="">
+<p><strong>已过期保留</strong></p>
+</li>
+</ul>
+<p>其中「即将到期」和「已过期保留」的具体时间范围，以后台页面显示规则为准。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=筛选需要查看的代理>筛选需要查看的代理<a href=#筛选需要查看的代理 class=hash-link aria-label=筛选需要查看的代理的直接链接 title=筛选需要查看的代理的直接链接 translate=no>​</a></h3>
+<p>页面支持通过多种条件筛选代理资源，包括：</p>
+<ul>
+<li class="">
+<p><strong>关键词</strong>：可按 IP 或账号查询；</p>
+</li>
+<li class="">
+<p><strong>订单号</strong>：输入完整订单号查询；</p>
+</li>
+<li class="">
+<p><strong>产品类型</strong></p>
+</li>
+<li class="">
+<p><strong>国家/地区</strong></p>
+</li>
+<li class="">
+<p><strong>带宽</strong></p>
+</li>
+<li class="">
+<p><strong>使用状态</strong></p>
+</li>
+<li class="">
+<p><strong>到期筛选</strong></p>
+</li>
+<li class="">
+<p><strong>续费方式</strong></p>
+</li>
+</ul>
+<p>设置筛选条件后，点击 <strong>「查询」</strong>。</p>
+<p>如需清空当前筛选条件，可点击 <strong>「重置」</strong>。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=查看代理详细信息>查看代理详细信息<a href=#查看代理详细信息 class=hash-link aria-label=查看代理详细信息的直接链接 title=查看代理详细信息的直接链接 translate=no>​</a></h3>
+<p>代理列表会显示当前静态原生代理的主要信息，包括：</p>
+<ul>
+<li class="">
+<p><strong>IP</strong></p>
+</li>
+<li class="">
+<p><strong>国家/地区</strong></p>
+</li>
+<li class="">
+<p><strong>带宽</strong></p>
+</li>
+<li class="">
+<p><strong>共享/独享</strong></p>
+</li>
+<li class="">
+<p><strong>连接数（QPS）</strong></p>
+</li>
+<li class="">
+<p><strong>账号 / 密码</strong></p>
+</li>
+<li class="">
+<p><strong>使用状态</strong></p>
+</li>
+<li class="">
+<p><strong>到期 / 续费</strong></p>
+</li>
+<li class="">
+<p><strong>UDP</strong></p>
+</li>
+<li class="">
+<p><strong>操作</strong></p>
+</li>
+</ul>
+<p>使用代理前，建议重点确认 IP、账号密码、带宽、QPS、到期时间和使用状态。</p>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id=导出代理账号>导出代理账号<a href=#导出代理账号 class=hash-link aria-label=导出代理账号的直接链接 title=导出代理账号的直接链接 translate=no>​</a></h3>
+<p>如需批量保存代理连接信息，可点击页面右上方的 <strong>「导出所有账号」</strong>。</p>
+<p>导出前建议先确认当前账户下的代理资源和筛选条件，避免混淆不同地区、不同套餐或不同服务周期的代理信息。</p>
+<blockquote>
+<p><strong>安全提示：</strong> 代理账号和密码属于连接认证凭据，请妥善保存，不要公开分享给无关人员。</p>
+</blockquote></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label=文件选项卡><a class="pagination-nav__link pagination-nav__link--prev" href=/user-guide/><div class=pagination-nav__sublabel>上一页</div><div class=pagination-nav__label>IPWeb 动态代理使用指南</div></a><a class="pagination-nav__link pagination-nav__link--next" href=/category/open-platform/><div class=pagination-nav__sublabel>下一页</div><div class=pagination-nav__label>开放平台</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href=#一如何购买代理 class="table-of-contents__link toc-highlight">一、如何购买代理</a><ul><li><a href=#购买独享代理 class="table-of-contents__link toc-highlight">购买独享代理</a><ul><li><a href=#自定义购买 class="table-of-contents__link toc-highlight">自定义购买</a><ul><li><a href=#步骤-1选择国家地区 class="table-of-contents__link toc-highlight">步骤 1：选择国家/地区</a><li><a href=#步骤-2选择业务用途可选 class="table-of-contents__link toc-highlight">步骤 2：选择业务用途（可选）</a><li><a href=#步骤-3设置-udp class="table-of-contents__link toc-highlight">步骤 3：设置 UDP</a><li><a href=#步骤-4选择带宽 class="table-of-contents__link toc-highlight">步骤 4：选择带宽</a><li><a href=#步骤-5选择连接数qps class="table-of-contents__link toc-highlight">步骤 5：选择连接数（QPS）</a><li><a href=#步骤-6选择-ip-购买时长 class="table-of-contents__link toc-highlight">步骤 6：选择 IP 购买时长</a><li><a href=#步骤-7设置-ip-购买数量 class="table-of-contents__link toc-highlight">步骤 7：设置 IP 购买数量</a></ul><li><a href=#非自定义购买 class="table-of-contents__link toc-highlight">非自定义购买</a><ul><li><a href=#步骤-1选择地区 class="table-of-contents__link toc-highlight">步骤 1：选择地区</a><li><a href=#步骤-2选择-ip-购买时长 class="table-of-contents__link toc-highlight">步骤 2：选择 IP 购买时长</a><li><a href=#步骤-3确认预设规格 class="table-of-contents__link toc-highlight">步骤 3：确认预设规格</a><li><a href=#步骤-4设置-ip-数量并下单 class="table-of-contents__link toc-highlight">步骤 4：设置 IP 数量并下单</a></ul></ul><li><a href=#购买共享代理 class="table-of-contents__link toc-highlight">购买共享代理</a><ul><li><a href=#自定义购买-1 class="table-of-contents__link toc-highlight">自定义购买</a><li><a href=#非自定义购买-1 class="table-of-contents__link toc-highlight">非自定义购买</a></ul><li><a href=#支付订单 class="table-of-contents__link toc-highlight">支付订单</a></ul><li><a href=#二如何查看已购买的代理 class="table-of-contents__link toc-highlight">二、如何查看已购买的代理</a><ul><li><a href=#查看代理资源状态 class="table-of-contents__link toc-highlight">查看代理资源状态</a><li><a href=#筛选需要查看的代理 class="table-of-contents__link toc-highlight">筛选需要查看的代理</a><li><a href=#查看代理详细信息 class="table-of-contents__link toc-highlight">查看代理详细信息</a><li><a href=#导出代理账号 class="table-of-contents__link toc-highlight">导出代理账号</a></ul></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class=footer__copyright>版权所有 © 2026 IPWeb, Inc.</div></div></div></footer></div></body>
