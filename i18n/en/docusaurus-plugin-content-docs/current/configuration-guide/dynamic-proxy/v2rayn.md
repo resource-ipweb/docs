@@ -33,71 +33,56 @@ After registration, log in to the IPWeb user dashboard at `https://user.ipweb.cc
 
 > New users can test proxy performance with the complimentary traffic before choosing a paid plan.
 
-### 3. Purchase a Dynamic Residential Proxy Plan
+### 3. Purchase Dynamic Proxy Traffic
 
-After logging in to IPWeb, select the dynamic residential proxy product you want to use from the left dashboard.
+After logging in to the IPWeb dashboard, go to **Proxy Products** → **Dynamic Proxy** in the left navigation. The default page is **Traffic Top-up**.
 
-Dynamic residential proxies use a **pay-as-you-go traffic billing** model—no fixed plan purchase required. Usage is metered as soon as you generate proxies.
+Dynamic proxies are billed by traffic usage. Before purchasing, choose a traffic package that matches your needs.
 
-Step 1: In the left menu of the user dashboard, click **获取代理 (Get Proxy)**.
+![IPWeb Dynamic Proxy Traffic Top-up page](https://oss.ipweb.cc/docs/imgs/2026/08/dynamic-traffic-recharge-en.png)
 
-Step 2: Configure the following parameters:
+Focus on the following when purchasing:
 
-- **国家 / 地区 (Country / Region)**: Choose the target location for your proxy IPs based on your workload (220+ countries supported)
-- **代理服务器 (Proxy Server)**: After selecting a country, the system automatically assigns the corresponding **proxy server address**
-- **IP 持续时间 (IP Session Duration)**: Maximum time a single IP can be used. When the period ends, the IP rotates automatically. **IP rotation does not interrupt your connection**—the proxy account remains usable; only the exit IP changes. Choose a duration that fits your workload
-- **代理数量 (Proxy Count)**: Number of proxy lines to export (e.g., enter `5` for five lines). Each export is limited to **1,000** lines
-- **代理协议 (Proxy Protocol)**: HTTP or SOCKS5 (choose based on client support)
+| Item | Description |
+| --- | --- |
+| Traffic package | Choose the traffic volume you need based on expected usage. Traffic is billed per GB |
+| Unit price | Unit price may vary by package size—larger volume usually means a lower unit price |
+| Custom traffic package | If preset packages do not fit, create a custom package using the options on the page |
 
-![Dynamic proxy parameter configuration](https://oss.ipweb.cc/docs/imgs/2026/07/image3.png)
+After selecting traffic, go to the order confirmation page and verify the **unit price, traffic volume, and amount**. Then choose a supported payment method and complete payment.
 
-Step 3: The first time you generate proxies, you must **set a proxy password**—this password is used for client authentication. Note: **password changes take about 1 minute to take effect**. If your proxy credentials are leaked or compromised, change this password immediately.
+![IPWeb Dynamic Proxy order confirmation page](https://oss.ipweb.cc/docs/imgs/2026/08/dynamic-order-confirmation-en.png)
 
-Step 4: After confirming all parameters, click **生成代理 (Generate Proxy)**. The system will automatically download a **txt file** containing the generated proxy connection details—one line per proxy—in the following format:
+When payment succeeds, the corresponding traffic is credited to your dynamic proxy account under the order rules and can be used to generate and use proxies.
 
+For more details on dynamic proxy traffic purchase, payment, and account traffic, see the [IPWeb Dynamic Proxy User Guide](/user-guide/).
+
+
+### 4. Get Dynamic Proxy Connection Details
+
+After topping up traffic, go to **Proxy Products** → **Dynamic Proxy** → **Get Proxy** in the left navigation to generate proxy connection details based on your needs.
+
+![IPWeb Dynamic Proxy Get Proxy page](https://oss.ipweb.cc/docs/imgs/2026/08/dynamic-get-proxy-en.png)
+
+Before generating proxies, configure these parameters:
+
+| Parameter | Description |
+| --- | --- |
+| Country / Region, State, City | Select the target exit IP location; if you do not need precise targeting, select only the country or region |
+| Proxy server | Choose the proxy server node used to access the IPWeb dynamic proxy network |
+| IP session duration | Set how long the exit IP stays valid in the current proxy session; dynamic proxies remain dynamic IP resources |
+| Proxy count | Number of proxy lines to generate this time |
+| Proxy protocol | Supports HTTP, HTTPS, and SOCKS5 at the same time—no need to switch protocols when generating |
+
+After configuring, click **Generate Proxy**. Generated connection details use this format:
+
+```text
+proxy_server:port:proxy_account:password
 ```
-proxy_server_address:port:username:password
-```
 
-Save this file securely; you will need it when configuring v2rayN later.
+When configuring v2rayN, use the **proxy server, port, proxy account, and password**.
 
-
-### 4. Top Up & Payment
-
-IPWeb supports the following payment methods:
-
-| Payment Method | Description |
-|---------|------|
-| Alipay (HK) | Settled in HKD, instant credit |
-| USDT-TRC20 | Cryptocurrency payment |
-| Bank Transfer | Available for enterprise customers |
-
-Complete payment in the dashboard under **财务管理 > 充值中心 (Finance > Top-Up Center)**. Enterprise customers with custom requirements can contact support for a dedicated quote.
-
-> Dynamic residential proxies are billed by traffic usage. After topping up, monitor your remaining balance to avoid service interruption due to insufficient funds.
-
-
-### 5. Monitor Traffic Usage
-
-After purchase, you can manage your account assets and usage data visually through the IPWeb dashboard at any time.
-
-#### Dashboard Overview
-
-The **仪表盘 (Dashboard)** page you land on after login is your data control center. You can see your **total balance** and **remaining available traffic** for each product line at a glance. Watch for low-traffic alerts so you can top up in time and avoid business disruption.
-
-![Dashboard overview](https://oss.ipweb.cc/docs/imgs/2026/07/image5.png)
-
-#### Traffic Usage History
-
-Click **流量历史 (Traffic History)** under **动态住宅代理 (Dynamic Residential Proxy)** in the left navigation bar. The system generates consumption reports automatically, letting you review traffic usage for specific time periods in detail.
-
-![Traffic usage history](https://oss.ipweb.cc/docs/imgs/2026/07/image6.png)
-
-#### Top-Up History
-
-Click **充值历史 (Top-Up History)** under **动态住宅代理 (Dynamic Residential Proxy)**. This page records every dynamic proxy top-up with **time, order number, amount, and status** for finance reconciliation and cost management.
-
-![Top-up history](https://oss.ipweb.cc/docs/imgs/2026/07/image8.png)
+For details on region codes, proxy account structure, SID, custom proxy accounts, and proxy server selection, see the [IPWeb Dynamic Proxy User Guide](/user-guide/).
 
 
 ## Configure IPWeb Proxies in v2rayN

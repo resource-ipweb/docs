@@ -33,76 +33,56 @@ After registration, log in to the IPWeb dashboard at `https://user.ipweb.cc` for
 
 > New users can test proxy performance with complimentary traffic before choosing a paid plan.
 
-### 3. Get Dynamic Residential Proxies
+### 3. Purchase Dynamic Proxy Traffic
 
-After logging in, select **Dynamic Residential Proxy**. Dynamic residential proxies use a **pay-as-you-go traffic** model—you do not buy fixed IP counts or subscription durations. Once you have available traffic, generate connection details as needed.
+After logging in to the IPWeb dashboard, go to **Proxy Products** → **Dynamic Proxy** in the left navigation. The default page is **Traffic Top-up**.
 
-#### ① Open Get Proxy
+Dynamic proxies are billed by traffic usage. Before purchasing, choose a traffic package that matches your needs.
 
-In the left navigation bar, open **Dynamic Residential Proxy** and click **Get Proxy**.
+![IPWeb Dynamic Proxy Traffic Top-up page](https://oss.ipweb.cc/docs/imgs/2026/08/dynamic-traffic-recharge-en.png)
 
-#### ② Configure dynamic proxy parameters
+Focus on the following when purchasing:
 
-Set parameters based on your use case:
+| Item | Description |
+| --- | --- |
+| Traffic package | Choose the traffic volume you need based on expected usage. Traffic is billed per GB |
+| Unit price | Unit price may vary by package size—larger volume usually means a lower unit price |
+| Custom traffic package | If preset packages do not fit, create a custom package using the options on the page |
+
+After selecting traffic, go to the order confirmation page and verify the **unit price, traffic volume, and amount**. Then choose a supported payment method and complete payment.
+
+![IPWeb Dynamic Proxy order confirmation page](https://oss.ipweb.cc/docs/imgs/2026/08/dynamic-order-confirmation-en.png)
+
+When payment succeeds, the corresponding traffic is credited to your dynamic proxy account under the order rules and can be used to generate and use proxies.
+
+For more details on dynamic proxy traffic purchase, payment, and account traffic, see the [IPWeb Dynamic Proxy User Guide](/user-guide/).
+
+
+### 4. Get Dynamic Proxy Connection Details
+
+After topping up traffic, go to **Proxy Products** → **Dynamic Proxy** → **Get Proxy** in the left navigation to generate proxy connection details based on your needs.
+
+![IPWeb Dynamic Proxy Get Proxy page](https://oss.ipweb.cc/docs/imgs/2026/08/dynamic-get-proxy-en.png)
+
+Before generating proxies, configure these parameters:
 
 | Parameter | Description |
 | --- | --- |
-| **Country / Region** | Target location for the proxy IP (220+ countries/regions) |
-| **Proxy Server** | After you select a country/region, the system assigns the matching proxy server |
-| **IP Session Duration** | Maximum lifetime of a single exit IP; when it expires, the IP rotates automatically while the proxy account remains usable |
-| **Proxy Count** | Number of proxy lines to generate (e.g. enter `5` for five lines); max **1,000** per export |
-| **Proxy Protocol** | Choose HTTP or SOCKS5; you must select the same protocol later in NekoBox |
+| Country / Region, State, City | Select the target exit IP location; if you do not need precise targeting, select only the country or region |
+| Proxy server | Choose the proxy server node used to access the IPWeb dynamic proxy network |
+| IP session duration | Set how long the exit IP stays valid in the current proxy session; dynamic proxies remain dynamic IP resources |
+| Proxy count | Number of proxy lines to generate this time |
+| Proxy protocol | Supports HTTP, HTTPS, and SOCKS5 at the same time—no need to switch protocols when generating |
 
-> Dynamic residential IPs rotate based on the selected duration. When the IP changes, the proxy account stays valid and the service typically continues without interruption.
-
-![Dynamic proxy parameter configuration](https://oss.ipweb.cc/docs/imgs/2026/07/image3.png)
-
-#### ③ Set the proxy password
-
-The first time you generate dynamic proxies, set a **proxy password**. This is not your IPWeb login password—it is the authentication password you will enter in NekoBox.
-
-> Password changes usually take about **1 minute** to apply. If credentials are leaked or at risk, change the proxy password promptly and reconnect after it takes effect.
-
-#### ④ Generate and download proxy details
-
-After confirming country/region, duration, count, and protocol, click **Generate Proxy**. The system downloads a **TXT file** with one proxy line per entry:
+After configuring, click **Generate Proxy**. Generated connection details use this format:
 
 ```text
-proxy_server_address:port:username:password
+proxy_server:port:proxy_account:password
 ```
 
-Each line maps to NekoBox fields as follows:
+When configuring NekoBox, use the **proxy server, port, proxy account, and password**.
 
-| Position in TXT line | NekoBox field |
-| --- | --- |
-| 1st item | Server |
-| 2nd item | Server port |
-| 3rd item | Username |
-| 4th item | Password |
-
-Save the TXT file securely. You will enter these values when adding nodes in NekoBox.
-
-### 4. Monitor Traffic Usage
-
-Dynamic residential proxies are billed by traffic. After generating proxies, you can review balance, remaining traffic, and usage history in the IPWeb dashboard.
-
-#### Overview dashboard
-
-After login, the default **Dashboard** shows your **total balance** and **remaining traffic** per product line. Watch alerts so low balance does not interrupt your work.
-
-![Dashboard overview](https://oss.ipweb.cc/docs/imgs/2026/07/image5.png)
-
-#### Traffic usage history
-
-Under **Dynamic Residential Proxy**, open **Traffic History** to review consumption by time range.
-
-![Traffic history](https://oss.ipweb.cc/docs/imgs/2026/07/image6.png)
-
-#### Top-up history
-
-Under **Dynamic Residential Proxy**, open **Top-Up History** for time, order number, amount, and status of each top-up.
-
-![Top-up history](https://oss.ipweb.cc/docs/imgs/2026/07/image8.png)
+For details on region codes, proxy account structure, SID, custom proxy accounts, and proxy server selection, see the [IPWeb Dynamic Proxy User Guide](/user-guide/).
 
 ## NekoBox Configuration
 

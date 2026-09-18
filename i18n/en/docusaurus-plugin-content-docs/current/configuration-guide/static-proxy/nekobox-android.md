@@ -33,39 +33,50 @@ After registration, log in to the IPWeb dashboard at `https://user.ipweb.cc` for
 
 > New users can test proxy performance with complimentary traffic before choosing a paid plan.
 
-### 3. Purchase a Static Residential Proxy Plan
+### 3. Purchase Static Native Proxies
 
-After logging in, select the static residential proxy product from the left dashboard.
+After logging in to the IPWeb dashboard, go to **Proxy Products** → **Static Native Proxy** → **Buy Proxy** in the left navigation.
 
-Static residential proxies are billed **by IP count and subscription duration**. After purchase, you receive fixed residential IP addresses.
+On the purchase page, select **Dedicated** or **Shared** based on your needs, then choose whether to enable **Custom purchase**.
 
-Step 1: In the left navigation bar, click **Static Residential Proxy** → **Purchase Proxy**.
+![IPWeb Static Native Proxy Buy Proxy page](https://oss.ipweb.cc/docs/imgs/2026/09/static-native-buy-proxy-custom-dedicated-steps-en.png)
 
-Step 2: Configure the following parameters:
+Confirm these parameters when purchasing:
 
 | Parameter | Description |
 | --- | --- |
-| Country / Region | Precise targeting by country / city |
-| IP Quality & Use Case | Match IP quality to your workload (Basic / Standard / Premium) |
-| Protocol & Features | SOCKS5 / HTTP by default; IPs are **dedicated** for isolation |
-| Subscription Duration | From **7 days to 1 year** as needed |
-| Quantity | Number of fixed IPs to purchase |
+| Dedicated / Shared | Dedicated proxies are used exclusively by the current account; Shared proxies use a shared resource pool |
+| Country / Region | Select the proxy exit location; available options follow current dashboard resources |
+| Use case | Optional—select when you have a specific scenario; leave blank if not needed |
+| UDP | Enable or disable based on your software, protocol, and business needs |
+| Bandwidth | Choose the bandwidth specification for this proxy instance |
+| Connections (QPS) | Choose a specification based on concurrent request needs |
+| IP period | Select the service duration for the proxy IP |
+| IP quantity | Enter how many IPs to purchase |
 
-![Static proxy parameter configuration](https://oss.ipweb.cc/docs/imgs/2026/07/image4.png)
+If you turn off **Custom purchase**, the page switches to preset package mode, where bandwidth, QPS, UDP, and similar options are predefined by the package.
 
-Step 3: Confirm the order total and complete payment with a supported method.
+After confirming country/region, specifications, period, IP quantity, and amount due, click **Place Order**. After the system creates the order, choose a supported payment method and complete payment. Line provisioning usually takes about **3–5 minutes**—wait for the system to finish allocating resources.
 
-### 4. Retrieve Proxy Connection Details
+For details on Dedicated/Shared, Custom purchase, specifications, and payment, see the [IPWeb Static Native Proxy User Guide](/static-native-user-guide/).
 
-After purchase, open **Purchased Line Details** in the left navigation bar to view:
 
-- **Static IP address**
-- **Port number**
-- **Credentials (username / password)**
+### 4. View Proxy Connection Details
 
-Use these details directly in your client configuration.
+After your Static Native Proxy has been purchased and activated, go to **Proxy Products** → **Static Native Proxy** → **My IPs** in the left navigation to view purchased proxy resources under the current account.
 
-![Purchased line details](https://oss.ipweb.cc/docs/imgs/2026/07/image7.jpeg)
+![IPWeb Static Native Proxy My IPs page](https://oss.ipweb.cc/docs/imgs/2026/09/static-native-my-ips-en.png)
+
+In the proxy list, confirm the details needed for NekoBox configuration:
+
+- **IP**: The purchased Static Native Proxy address;
+- **Port**: The port used for the proxy connection;
+- **Username / Password**: Credentials used to authenticate the proxy connection;
+- **Status**: Confirm the proxy resource is currently available.
+
+The page also shows country/region, bandwidth, Shared/Dedicated, Connections (QPS), expiration/renewal, UDP, and other fields for verifying the resource. When configuring NekoBox, use the **proxy IP, port, username, and password** shown here.
+
+For proxy filtering, credential export, renewal, and other management actions, see the [IPWeb Static Native Proxy User Guide](/static-native-user-guide/).
 
 ## NekoBox Configuration
 
